@@ -1,0 +1,20 @@
+package hello.servlet.web.frontcontroller;
+
+import lombok.Data;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+@Data   ///실제 view 경로
+public class ModelView {
+    private String viewName;
+    private Map<String,Object> model = new HashMap<>();
+    public ModelView(String viewName){
+        this.viewName = viewName;
+    }
+}
+
+
+
+
