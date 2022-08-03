@@ -6,6 +6,8 @@ import hello.itemservice.domain.item.ItemRepository;
 import hello.itemservice.domain.item.itemType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +18,14 @@ import java.util.*;
 @Slf4j
 @Controller
 @RequestMapping("/form/items")
-@RequiredArgsConstructor
+@RequiredArgsConstructor    //초기화 하지 않은 final 필드(itemRepository) 에 대하여 생성자를 생성해주는 어노테이션
 public class FormItemController {
+
 
     private final ItemRepository itemRepository;
 
 
-    @ModelAttribute("regions")
+    @ModelAttribute("regions")  //${regions}
     public Map<String,String> regions(){
         Map<String,String> regions = new LinkedHashMap<>();
         regions.put("SEOUL","서울");
@@ -31,12 +34,13 @@ public class FormItemController {
         return regions;     //컨트롤러에 어떤 메소드가 호출할때마다 무조건 담김
     }
 
-    @ModelAttribute("itemTypes")
+    @ModelAttribute("itemTypes")    //${itemTypes}
     public itemType[] itemTypes(){
+        //Enum 타입의 itemType을 모두 반환하고 싶을때, 배열로 반환가능하다.
         return itemType.values();
     }
-    
-    
+
+
     @ModelAttribute("deliveryCodes")
     public List<DeliveryCode> deliveryCodes(){
         List<DeliveryCode> deliveryCodes = new ArrayList<>();
@@ -90,12 +94,11 @@ public class FormItemController {
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
         itemRepository.update(itemId, item);
-
         return "redirect:/form/items/{itemId}";
     }
-    
-    
-    
+
+
+
 
 }
 
