@@ -11,12 +11,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -25,6 +26,12 @@ import java.util.Map;
 public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
+    @InitBinder //해당 컨트롤러에만 영향을 준다.
+    public void init(WebDataBinder dataBinder){
+        //Controller가 호출될때 WebDataBinder에 의해서 itemValidator을 적용할 수 있다.
+        dataBinder.addValidators(itemValidator);
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -161,12 +168,13 @@ public class ValidationItemControllerV2 {
 
         //성공 로직
         Item savedItem = itemRepository.save(item);
+
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+ //  @PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.info("objectName={}",bindingResult.getObjectName());
         log.info("target={}",bindingResult.getTarget());
@@ -175,6 +183,11 @@ public class ValidationItemControllerV2 {
             //errorCode에 errors.properties 에서 오류코드 맨 앞 키 값만 가져온다.
             bindingResult.rejectValue("itemName","required");   //오류코드 맨 앞만
         }
+
+//        ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult,"itemName","required"); 와 동일하게 쓸 수 있지만
+        //해당 코드는 공백같은 단순한 기능만 제공함
+
+
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
             bindingResult.rejectValue("price","range", new Object[]{1000,1000000},null);
         }
@@ -204,10 +217,47 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
+  //  @PostMapping("/add")
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        //검증단계
+        itemValidator.validate(item,bindingResult);
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {} ", bindingResult);
+            //BindingResult는 자동으로 view에 넘어가기 때문에 model 객체에 넣지 않아도 된다.
+            return "validation/v2/addForm";
+        }
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        //컨트롤러 호출 되기 전 파라미터 바인딩 후 검증 support메소드 ->validate
+        // @Validated : 검증기를 실행하라
+        // WebDataBinder에 있는 검증기를 실행하게 된다.
+        // @Validated를 넣어주면 자동으로 item 객체를 검증해주고 결과는 Validated 객체에 넣어준다
 
 
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {} ", bindingResult);
+            //BindingResult는 자동으로 view에 넘어가기 때문에 model 객체에 넣지 않아도 된다.
+            return "validation/v2/addForm";
+        }
 
-
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
 
 
     @GetMapping("/{itemId}/edit")
