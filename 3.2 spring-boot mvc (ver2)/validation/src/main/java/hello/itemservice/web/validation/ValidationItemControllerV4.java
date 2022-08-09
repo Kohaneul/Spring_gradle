@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -50,6 +51,8 @@ public class ValidationItemControllerV4 {
     //BindingResult : 객체의 반환된 결과가 담김 , ModelAttribute 뒤에 와야 함. (왜냐하면 ModelAttribute에 담은 객체에 대한 바인딩 결과를 표현해줘야 하기 때문)
     //bindingResult가 없으면 spring 입장에서 오류발생시 오류페이지만 넘긴채 컨트롤러 호출x
     //bindingResult가 있다면 오류발생해도 컨트롤러 호출후 문제 정보를 bindingResult에 담아서 메세지 표출함
+
+
 
 
 
