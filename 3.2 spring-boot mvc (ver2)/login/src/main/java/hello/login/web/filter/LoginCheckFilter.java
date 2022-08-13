@@ -29,7 +29,7 @@ public class LoginCheckFilter implements Filter {
                     log.info("미인증 사용자 요청 {}",requestURI);
                     //로그인으로 리다이랙트
                     httpResponse.sendRedirect("/login?redirectURL="+requestURI);
-                    return;
+                    return; //*** 미인증 사용자는 리다이랙트 되고 끝
                 }
             }
             chain.doFilter(request,response);
