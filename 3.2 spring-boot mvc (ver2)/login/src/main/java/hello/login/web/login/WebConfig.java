@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.servlet.Filter;
 import java.util.List;
 
-@Configuration
+@Configuration  //빈등록을
 public class WebConfig implements WebMvcConfigurer {
 
     @Override   //LoginMemberArgumentResolver Override 해줘야한다.
