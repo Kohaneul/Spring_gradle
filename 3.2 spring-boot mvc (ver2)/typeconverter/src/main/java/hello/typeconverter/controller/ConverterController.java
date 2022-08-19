@@ -34,15 +34,11 @@ public class ConverterController {
         model.addAttribute("ipPort",ipPort);
         return "converter-view";
     }
-
-
     @Data
     @AllArgsConstructor
     static class Form{
         private IpPort ipPort;
 
     }
-
-
 }
 

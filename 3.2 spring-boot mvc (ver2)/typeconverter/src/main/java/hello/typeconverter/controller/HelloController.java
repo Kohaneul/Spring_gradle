@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @Slf4j
 public class HelloController {
-
     @GetMapping("/hello-v1")
     public String helloV1(HttpServletRequest request){
         String data = request.getParameter("data");//문자타입으로 조회

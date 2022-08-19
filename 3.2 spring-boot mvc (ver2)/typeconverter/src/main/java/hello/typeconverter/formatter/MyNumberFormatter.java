@@ -9,7 +9,7 @@ import java.util.Locale;
 
 @Slf4j
 public class MyNumberFormatter implements Formatter<Number> {
-    //Integer, Double은 Number의 자식타입이다.
+        //Integer, Double은 Number의 자식타입이다.
     @Override
     public Number parse(String text, Locale locale) throws ParseException {
         log.info("text={},locale={}",text,locale);
