@@ -8,7 +8,7 @@ public class IpPortToStringConverter implements Converter<IpPort, String> {
 
     @Override
     public String convert(IpPort source) {
-        //IpPort 객체를 String으로 반환
+        //IpPort 객체를 String으로
         log.info("convert source={}",source);
         return source.getIp()+":"+source.getPort();
     }
