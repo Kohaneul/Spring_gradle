@@ -3,12 +3,17 @@ package hello.exception.exhandler.advice;
 import hello.exception.exception.UserException;
 import hello.exception.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.servlet.http.HttpServlet;
+import java.io.IOException;
+
 
 @Slf4j
 @RestControllerAdvice(basePackages = "hello.exception.api") //해당 패키지에만 적용
@@ -26,7 +31,6 @@ public class ExControllerAdvice {
         return new ErrorResult("BAD",e.getMessage());
     }
 
-
     @ExceptionHandler
     public ResponseEntity<ErrorResult> userExHandler(UserException e){
         log.error("[exceptionHandler] ex", e);
@@ -41,6 +45,5 @@ public class ExControllerAdvice {
         log.error("[exceptionHandler] ex",e);
         return new ErrorResult("EX","내부 오류");
     }
-
 
 }

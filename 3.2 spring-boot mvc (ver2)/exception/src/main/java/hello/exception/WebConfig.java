@@ -25,6 +25,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/css/**","*.ico","/error","/error-page/***");  //오류 페이지 경로를 넣을 수 있다.
     }
 
+
+
     @Override
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         resolvers.add(new MyHandlerExceptionResolver());

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 @Slf4j
 public class UserHandlerExceptionResolver implements HandlerExceptionResolver {
     private final ObjectMapper objectMapper = new ObjectMapper();
