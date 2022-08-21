@@ -20,6 +20,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+import java.sql.Driver;
 import java.sql.SQLException;
 
 import static hello.jdbc.connection.ConnectionConst.*;

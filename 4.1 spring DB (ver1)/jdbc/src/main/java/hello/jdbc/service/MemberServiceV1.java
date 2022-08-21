@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.sql.SQLException;
 
+
+
 @RequiredArgsConstructor
 public class MemberServiceV1 {
 
