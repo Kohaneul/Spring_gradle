@@ -89,6 +89,7 @@ public class MemberRepositoryV2 {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
+
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, memberId);
             rs = pstmt.executeQuery();
