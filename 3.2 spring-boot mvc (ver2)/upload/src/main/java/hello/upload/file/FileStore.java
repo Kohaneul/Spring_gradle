@@ -22,6 +22,7 @@ public class FileStore {
         return fileDir+filename;
     }
 
+
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
         //multipartfile을 가지고 uploadfile로 반환
         if(multipartFile.isEmpty()){
@@ -41,8 +42,7 @@ public class FileStore {
     private String createStoreFileName(String originalFilename) {
         String uuid = UUID.randomUUID().toString();
         String ext = extractExt(originalFilename);
-        System.out.println("ext : "+ext);
-        //uuid+파일 확장자
+        //uuid+파일 확장자e
         return uuid + "." + ext;
     }
 

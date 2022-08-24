@@ -36,6 +36,7 @@ public class ItemController {
         return "item-form";
     }
 
+
     @PostMapping("/items/new")
     public String saveItem(@ModelAttribute ItemForm form, RedirectAttributes redirectAttributes) throws IOException {
         UploadFile attachFile = fileStore.storeFile(form.getAttachFile());
@@ -76,7 +77,9 @@ public class ItemController {
     public ResponseEntity<Resource> downloadAttach(@PathVariable Long itemId) throws MalformedURLException {
         Item item = itemRepository.findById(itemId);
         String storeFileName = item.getAttachFile().getStoreFileName();
-        String uploadFileName = item.getAttachFile().getUploadFileName();   //사용자가 다운로드 받을때 업로드 파일명이 나와야함
+        String uploadFileName = item.getAttachFile().getUploadFileName();   //사용자가 다운로드 받을때 업로드 파일명이 나와야함]
+        log.info("storeFileName={}",storeFileName);
+
         UrlResource resource = new UrlResource("file:"+fileStore.getFullPath(storeFileName));
         log.info("uploadFileName={}",uploadFileName);
         String encodedUploadFileName= UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);  //파일이름 인코딩
