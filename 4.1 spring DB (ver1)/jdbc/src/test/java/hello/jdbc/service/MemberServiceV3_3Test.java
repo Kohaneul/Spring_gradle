@@ -1,13 +1,18 @@
 package hello.jdbc.service;
 
 import hello.jdbc.domain.Member;
-import hello.jdbc.repository.MemberRepositoryV2;
 import hello.jdbc.repository.MemberRepositoryV3;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -20,31 +25,58 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * 트랜잭션 - 커넥션 파라미터 전달 방식 동기화(같은커넥션 사용)
+ * 트랜잭션 - @Transactional AOP
  * */
 @Slf4j
-class MemberServiceV3_1Test {
+@SpringBootTest //Test시 스프링 컨테이너를 띄움
+class MemberServiceV3_3Test {
 
     private static final String MEMBER_A = "memberA";
     private static final String MEMBER_B = "memberB";
     private static final String MEMBER_Ex = "ex";
 
-    private MemberRepositoryV3 memberRepository;
-    private MemberServiceV3_1 service;
+    @Autowired private MemberRepositoryV3 memberRepository;
+    @Autowired private MemberServiceV3_3 service;
 
-    @BeforeEach
-    void before() throws SQLException {
-       DataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
-       memberRepository = new MemberRepositoryV3(dataSource);
-       PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-       //DataSourceTransactionManager : JDBC용 트랜잭션 매니저
-        service = new MemberServiceV3_1(transactionManager,memberRepository);
+
+    @TestConfiguration
+    static class TestConfig{
+        @Bean
+        DataSource dataSource(){
+            return new DriverManagerDataSource(URL,USERNAME,PASSWORD);
+        }
+
+        @Bean
+        PlatformTransactionManager transactionManager(){
+            return new DataSourceTransactionManager(dataSource());
+        }
+
+        @Bean
+        MemberRepositoryV3 memberRepositoryV3(){
+            return new MemberRepositoryV3(dataSource());
+        }
+        @Bean
+        MemberServiceV3_3 memberServiceV3_3(){
+            return new MemberServiceV3_3(memberRepositoryV3());
+        }
     }
+
+    @Test
+    void AopCheck(){
+        log.info("memberService class={}",service.getClass());  //AOP프록시 적용(@Transactional 애노테이션 有) =>CGLIB 라이브러리를 통해 바이트코드조작함
+        log.info("memberRepository class={}",memberRepository.getClass());
+        //AopProxy 적용여부 판단
+        Assertions.assertThat(AopUtils.isAopProxy(service)).isTrue();
+        Assertions.assertThat(AopUtils.isAopProxy(memberRepository)).isFalse();
+
+    }
+
     @AfterEach
     void after() throws SQLException {
         memberRepository.delete(MEMBER_A);
         memberRepository.delete(MEMBER_B);
         memberRepository.delete(MEMBER_Ex);
+
     }
     @Test
     @DisplayName("정상 이체")
@@ -85,8 +117,8 @@ class MemberServiceV3_1Test {
         Member findMemberEx = memberRepository.findById(memberEx.getMemberId());
 
         //then
-        //exception이 터지면 실행이 안되고 rollback이 되기 때문에 돈의 값은 변하지 않는다.
         assertThat(findMemberA.getMoney()).isEqualTo(10000);
+        //오류=>트랜잭션 처리 안된채 2000원 이체만 됐음.. 이유 : 스프링 컨테이너를 사용안했기 때문(스프링 AOP를 쓰려면 스프링 컨테이너에 스프링 빈을 등록해야함)
         assertThat(findMemberEx.getMoney()).isEqualTo(10000);
     }
 

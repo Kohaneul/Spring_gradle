@@ -17,7 +17,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * 트랜잭션 - 매니저
+ * 트랜잭션 - 트랜잭션 매니저
  * */
 @Slf4j
 @RequiredArgsConstructor
@@ -27,6 +27,7 @@ public class MemberServiceV3_1 {
 
 
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
+
         //트랜잭션 시작
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
@@ -52,17 +53,6 @@ public class MemberServiceV3_1 {
         memberRepository.update(toMember.getMemberId(),toMember.getMoney()+ money);
     }
 
-    private void release(Connection con) {
-        if(con !=null){
-            try{
-                con.setAutoCommit(true);    //커넥션 풀을 고려
-                con.close();
-            }
-            catch(Exception e){
-            log.info("error",e);
-            }
-        }
-    }
 
     private void validation(Member toMember) {
         if(toMember.getMemberId().equals("ex")){

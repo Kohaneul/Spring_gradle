@@ -19,13 +19,11 @@ public class MemberServiceV3_2 {
     //private final PlatformTransactionManager transactionManager;
     private final TransactionTemplate txTemplate;
     private final MemberRepositoryV3 memberRepository;
-
     public MemberServiceV3_2(PlatformTransactionManager transactionManager, MemberRepositoryV3 memberRepository) {
       // transactionManager로 주입받고 내부에서는 TransactionTemplate를 사용
         this.txTemplate = new TransactionTemplate(transactionManager);
         this.memberRepository = memberRepository;
     }
-
 
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
         txTemplate.executeWithoutResult((status)->{
@@ -50,17 +48,6 @@ public class MemberServiceV3_2 {
         memberRepository.update(toMember.getMemberId(),toMember.getMoney()+ money);
     }
 
-    private void release(Connection con) {
-        if(con !=null){
-            try{
-                con.setAutoCommit(true);    //커넥션 풀을 고려
-                con.close();
-            }
-            catch(Exception e){
-            log.info("error",e);
-            }
-        }
-    }
 
     private void validation(Member toMember) {
         if(toMember.getMemberId().equals("ex")){
