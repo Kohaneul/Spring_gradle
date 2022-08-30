@@ -22,6 +22,13 @@ public class MemberRepositoryV3 {
 
     private final DataSource dataSource;    //추상화된 인터페이스에만 의존 => 구현 코드가 바뀌어도 고치지 않아도 된다.
 
+    private Connection getConnection() throws SQLException {
+        //주의!! 트랜잭션 동기화를 사용하려면 DataSourceUtils를 사용해야 한다.
+        Connection con =DataSourceUtils.getConnection(dataSource);
+        log.info("get connection={}, class={}",con,con.getClass());
+        return con; //dataSource로 얻은 커넥션 반환
+    }
+
     public Member save(Member member) throws SQLException {
         String sql = "insert into member(member_id, money) values(?,?)";
         Connection con = null;
@@ -44,13 +51,6 @@ public class MemberRepositoryV3 {
     }
 
 
-
-    private Connection getConnection() throws SQLException {
-        //주의!! 트랜잭션 동기화를 사용하려면 DataSourceUtils를 사용해야 한다.
-        Connection con =DataSourceUtils.getConnection(dataSource);
-        log.info("get connection={}, class={}",con,con.getClass());
-        return con; //dataSource로 얻은 커넥션 반환
-    }
 
 
     public Member findById(String memberId) throws SQLException {
