@@ -13,6 +13,7 @@ public class UnCheckedTest {
 
     @Test
     void unchecked_catch(){
+
         Service service = new Service();
         service.callCatch();
     }
@@ -64,5 +65,4 @@ public class UnCheckedTest {
             throw new MyUnCheckedException("ex");
         }
     }
-
 }

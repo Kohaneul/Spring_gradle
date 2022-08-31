@@ -80,9 +80,6 @@ public class UnCheckedAppTest {
 
     static class RuntimeSQLException extends RuntimeException {
 
-        public RuntimeSQLException(){
-
-        }
         public RuntimeSQLException(Throwable cause) {
             super(cause);  //★★★★★★ 예외를 전환할때 꼭 기존 예외를 포함해주자
         }

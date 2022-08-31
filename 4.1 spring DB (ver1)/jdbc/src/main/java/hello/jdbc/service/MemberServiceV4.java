@@ -1,33 +1,37 @@
 package hello.jdbc.service;
 
 import hello.jdbc.domain.Member;
+import hello.jdbc.repository.MemberRepository;
 import hello.jdbc.repository.MemberRepositoryV3;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import java.sql.SQLException;
 
 /**
- * 트랜잭션 - @Transactional AOP
+ *  예외 누수 문제 해결
+ *  SQLException 제거
+ *
+ *  MemberRepository 인터페이스 의존
+ *
  * */
 @Slf4j
-public class MemberServiceV3_3 {
+public class MemberServiceV4 {
 
-    private final MemberRepositoryV3 memberRepository;
+    private final MemberRepository memberRepository;
 
-    public MemberServiceV3_3(MemberRepositoryV3 memberRepository) {
+    public MemberServiceV4(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     @Transactional  //이 메서드 호출시 Transaction 걸고 시작하겠다는 의미 성공하면 commit, 예외가 터지면 rollback
-    public void accountTransfer(String fromId, String toId, int money) throws SQLException {
+    public void accountTransfer(String fromId, String toId, int money) {
         bizLogic(fromId, toId, money);
     }
     //순수한 비즈니스 로직만 남기고 애노테이션 추가, 트랜잭션 코드관련 모두 제거
 
 
-    private void bizLogic(String fromId, String toId, int money) throws SQLException {
+    private void bizLogic(String fromId, String toId, int money) {
             Member fromMember = memberRepository.findById(fromId);
         Member toMember = memberRepository.findById(toId);
 
