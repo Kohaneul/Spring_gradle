@@ -1,7 +1,6 @@
 package hello.jdbc.repository.ex;
 
 public class MyDBException extends RuntimeException{
-
     public MyDBException() {
     }
 
