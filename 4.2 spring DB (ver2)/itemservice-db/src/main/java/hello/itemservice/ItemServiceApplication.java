@@ -18,7 +18,7 @@ public class ItemServiceApplication {
 	}
 
 	@Bean
-	@Profile("local")
+	@Profile("local")	//특정 프로필이 사용되는 경우에만 testDataInit이라는 스프링 빈을 등록.(application.properties 에서 spring.profiles.active=local 설정함)
 	public TestDataInit testDataInit(ItemRepository itemRepository) {
 		return new TestDataInit(itemRepository);
 	}

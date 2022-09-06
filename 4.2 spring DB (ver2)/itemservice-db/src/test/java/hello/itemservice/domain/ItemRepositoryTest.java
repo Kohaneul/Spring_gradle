@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ItemRepositoryTest {
 
     @Autowired
-    ItemRepository itemRepository;
+    ItemRepository itemRepository;  //테스트할때는 인터페이스로 하는게 좋다.
 
     @AfterEach
     void afterEach() {
@@ -70,8 +70,8 @@ class ItemRepositoryTest {
         itemRepository.save(item3);
 
         //둘 다 없음 검증
-        test(null, null, item1, item2, item3);
-        test("", null, item1, item2, item3);
+        test(null, null, item1, item2, item3);  //상품정보, 가격조건이 없으면 아이템이 전부다 조회
+        test("", null, item1, item2, item3);    //itemName의 길이가 0일때도 빈 문자열로 인식함
 
         //itemName 검증
         test("itemA", null, item1, item2);
@@ -87,6 +87,6 @@ class ItemRepositoryTest {
 
     void test(String itemName, Integer maxPrice, Item... items) {
         List<Item> result = itemRepository.findAll(new ItemSearchCond(itemName, maxPrice));
-        assertThat(result).containsExactly(items);
+        assertThat(result).containsExactly(items);  //containsExactly = > items 객체의 순서까지 일치해야됨.
     }
 }
