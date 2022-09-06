@@ -85,6 +85,7 @@ class ItemRepositoryTest {
         test("itemA", 10000, item1);
     }
 
+
     void test(String itemName, Integer maxPrice, Item... items) {
         List<Item> result = itemRepository.findAll(new ItemSearchCond(itemName, maxPrice));
         assertThat(result).containsExactly(items);  //containsExactly = > items 객체의 순서까지 일치해야됨.

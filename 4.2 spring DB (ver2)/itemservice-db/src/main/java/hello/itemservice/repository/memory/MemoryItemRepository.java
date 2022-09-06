@@ -34,8 +34,9 @@ public class MemoryItemRepository implements ItemRepository {
 
     @Override
     public Optional<Item> findById(Long id) {
-        return Optional.ofNullable(store.get(id));
+        return Optional.ofNullable(store.get(id));  //Optional.of : Null값을 허용하지 않는다 Optional.ofNullable : Null값을 허용한다.
     }
+
 
 
     @Override
