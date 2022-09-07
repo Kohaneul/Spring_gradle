@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 @Slf4j
+@Repository
 public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
     private final JdbcTemplate template;
 
@@ -29,7 +31,7 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
     @Override
     public Item save(Item item) {
-        String sql = "insert into item(item_name, price, quantity) values(?,?,?) ";
+        String sql = "insert into item(item_name, price, quantity) values(?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(connection ->{
             //자동 증가 키
@@ -60,33 +62,22 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
         catch(EmptyResultDataAccessException e){    //데이터 결과가 없는 경우에
             return Optional.empty();
         }
-        catch(IncorrectResultSizeDataAccessException e){
-            return Optional.empty();    //예외가 둘 이상인경우.
-        }
+//        catch(IncorrectResultSizeDataAccessException e){
+//            return Optional.empty();    //예외가 둘 이상인경우.
+//        }
 
 
     }
 
-    private RowMapper<Item> itemRowMapper() {
-        return ((rs,rowNum)->{
-            Item item = new Item();
-            item.setId(rs.getLong("id"));
-            item.setItemName(rs.getString("item_name"));
-            item.setPrice(rs.getInt("price"));
-            item.setQuantity(rs.getInt("quantity"));
-            return item;
-        });
-    }
 
     @Override
     public List<Item> findAll(ItemSearchCond cond) {
         String itemName = cond.getItemName();
         Integer maxPrice = cond.getMaxPrice();
-        String sql = "select * from item";
+        String sql = "select id,item_name,price,quantity from item";
         List<Object> param = new ArrayList<>();
         //동적쿼리
         if(StringUtils.hasText(itemName)||maxPrice!=null){
-            param.add(itemName);
             sql+=" where";
         }
         boolean andFlag=false;
@@ -107,4 +98,17 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
         return  template.query(sql,itemRowMapper(),param.toArray());
     }
+
+
+    private RowMapper<Item> itemRowMapper() {
+        return ((rs,rowNum)->{
+            Item item = new Item();
+            item.setId(rs.getLong("id"));
+            item.setItemName(rs.getString("item_name"));
+            item.setPrice(rs.getInt("price"));
+            item.setQuantity(rs.getInt("quantity"));
+            return item;
+        });
+    }
+
 }
