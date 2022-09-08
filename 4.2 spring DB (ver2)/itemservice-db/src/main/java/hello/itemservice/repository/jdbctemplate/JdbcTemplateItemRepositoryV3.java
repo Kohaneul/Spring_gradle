@@ -13,8 +13,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -38,7 +36,7 @@ public class JdbcTemplateItemRepositoryV3 implements ItemRepository{
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("item")
                 .usingGeneratedKeyColumns("id");
-           //    .usingColumns("item_name","price","quantity") 생략 가능 SimpleJdbcInsert가 자동으로 데이터를 인지하기 때문
+        //    .usingColumns("item_name","price","quantity") 생략 가능 SimpleJdbcInsert가 자동으로 데이터를 인지하기 때문
     }
 
     @Override
