@@ -50,10 +50,13 @@ public class JdbcTemplateItemRepositoryV3 implements ItemRepository{
 
     @Override
     public void update(Long itemId, ItemUpdateDto updateParam) {
-        String sql = "update item set item_name=:itemName,price=:price,quantity=:quantity where id=?:id";
+        String sql = "update item set item_name=:itemName, price=:price, quantity=:quantity where id=:id";
 
-        SqlParameterSource param = new MapSqlParameterSource().addValue("itemName", updateParam.getItemName()).addValue("price", updateParam.getPrice())
-                .addValue("quantity", updateParam.getQuantity()).addValue("id", itemId);
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("itemName", updateParam.getItemName())
+                .addValue("price", updateParam.getPrice())
+                .addValue("quantity", updateParam.getQuantity())
+                .addValue("id", itemId);
         template.update(sql,param);
 
     }
@@ -62,7 +65,7 @@ public class JdbcTemplateItemRepositoryV3 implements ItemRepository{
     public Optional<Item> findById(Long id) {
         String sql = "select id, item_name,price, quantity from item where id=:id";
         try{
-            Map<String, Object> param = Map.of("id", id);
+            Map<String, Object> param = Map.of("id",id);
             Item item = template.queryForObject(sql,param, itemRowMapper());
             return Optional.of(item);   //null인경우에 예외가 터지기 때문에
         }

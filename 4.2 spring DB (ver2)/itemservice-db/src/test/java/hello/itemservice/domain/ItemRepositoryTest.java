@@ -5,19 +5,37 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-@SpringBootTest
+@Transactional  //트랜잭션 시작하고 문제없으면 커밋시키는 로직
+@SpringBootTest //@SpringBootApplication 을 찾아내서 설정으로 사용이 된다.
 class ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;  //테스트할때는 인터페이스로 하는게 좋다.
+
+//@Transactional 어노테이션을 쓰게 되면 스프링 부트가 해당 코드 자동 생성시켜줌
+//    @Autowired
+//    PlatformTransactionManager transactionManager;
+//    TransactionStatus status;
+//    @BeforeEach
+//    void beforeEach(){
+//        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+//        //Test 시작 전에 트랜잭션 시작.
+//    }
+
 
     @AfterEach
     void afterEach() {
@@ -25,9 +43,14 @@ class ItemRepositoryTest {
         if (itemRepository instanceof MemoryItemRepository) {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
+        //@Transactional 어노테이션을 쓰게 되면 스프링 부트가 하기 코드 자동 생성하여 실행시킴
+        //트랜잭션 롤백
+        // transactionManager.rollback(status);
     }
 
     @Test
+    //@Commit   결과를 보고싶을때 사용 @Rollback(false)와 같음
+   // @Transactional
     void save() {
         //given
         Item item = new Item("itemA", 10000, 10);
