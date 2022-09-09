@@ -66,6 +66,7 @@ class ItemRepositoryTest {
     }
 
     @Test
+    @Commit
     void updateItem() {
         //given
         Item item = new Item("item1", 10000, 10);
