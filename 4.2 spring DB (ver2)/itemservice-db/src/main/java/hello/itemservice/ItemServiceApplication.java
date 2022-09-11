@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
@@ -17,7 +16,7 @@ import javax.sql.DataSource;
 //@Import(JdbcTemplateV3Config.class)
 
 @Slf4j
-@Import(JpaConfig.class)
+@Import(SpringDataJpaConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")
 public class ItemServiceApplication {
 
