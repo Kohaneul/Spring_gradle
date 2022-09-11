@@ -23,6 +23,8 @@ public class SpringDataJpaConfig {
     @Bean
     public ItemRepository itemRepository(){
         return new JpaItemRepositoryV2(repository);
+
+
     }
 
 }

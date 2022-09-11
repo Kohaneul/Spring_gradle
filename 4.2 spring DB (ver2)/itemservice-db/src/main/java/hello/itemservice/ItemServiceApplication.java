@@ -9,14 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
-import javax.sql.DataSource;
-
 //@Import(MemoryConfig.class)
 //@Import(JdbcTemplateV1Config.class)
 //@Import(JdbcTemplateV3Config.class)
 
 @Slf4j
-@Import(SpringDataJpaConfig.class)
+@Import(QuerydslConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")
 public class ItemServiceApplication {
 
