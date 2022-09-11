@@ -48,8 +48,8 @@ public class JpaItemRepository implements ItemRepository {
 
     @Override
     public List<Item> findAll(ItemSearchCond cond) {
-        String jpql="select i from Item i"; //Item Entity 자체를 반환
-
+        String jpql="selectxxx i from Item i"; //Item Entity 자체를 반환
+        //jpql : 객체지향 쿼리 언어
         //동적쿼리 작성
         String itemName = cond.getItemName();
         Integer maxPrice = cond.getMaxPrice();
