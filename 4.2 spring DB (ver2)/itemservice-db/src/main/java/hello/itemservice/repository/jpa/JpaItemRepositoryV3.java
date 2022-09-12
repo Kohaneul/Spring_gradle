@@ -1,17 +1,13 @@
 package hello.itemservice.repository.jpa;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hello.itemservice.domain.Item;
-import hello.itemservice.domain.QItem;
 import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -21,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static hello.itemservice.domain.QItem.item;
+
 
 @Repository
 @Transactional
@@ -58,7 +55,7 @@ public class JpaItemRepositoryV3 implements ItemRepository {
     public List<Item> findAll(ItemSearchCond cond) {
         String itemName = cond.getItemName();
         Integer maxPrice = cond.getMaxPrice();
-        return query.select(item).from(item).where(likeItemName(itemName),maxPrice(maxPrice)).fetch();
+        return query.select(item).from(item).where(likeItemName(itemName),maxPrice(maxPrice)).fetch();  //fetch=> list로 반환
     }
 
     private BooleanExpression maxPrice(Integer maxPrice) {
