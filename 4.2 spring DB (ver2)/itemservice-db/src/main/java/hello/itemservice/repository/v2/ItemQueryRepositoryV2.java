@@ -1,11 +1,9 @@
 package hello.itemservice.repository.v2;
 
-import com.querydsl.core.BooleanBuilder;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hello.itemservice.domain.Item;
-import hello.itemservice.domain.QItem;
 import hello.itemservice.repository.ItemSearchCond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -22,7 +20,6 @@ import static hello.itemservice.domain.QItem.item;
 @Slf4j
 public class ItemQueryRepositoryV2 {
     //복잡한 쿼리는 여기서 해결
-
     private final JPAQueryFactory query;
 
     public ItemQueryRepositoryV2(EntityManager em) {

@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 @Configuration
 @RequiredArgsConstructor
 public class V2Config {
+
     private final EntityManager em;
     private final ItemRepositoryV2 itemRepositoryV2;    //SpringDataJpa
     @Bean
