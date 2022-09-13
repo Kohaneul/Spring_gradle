@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 public class MemberRepositoryV4_2 implements MemberRepository{
 
     private final DataSource dataSource;    //추상화된 인터페이스에만 의존 => 구현 코드가 바뀌어도 고치지 않아도 된다.
-    private final SQLExceptionTranslator exTranslator;
+    private final SQLExceptionTranslator exTranslator;   //스프링 예외 계층으로 전환
 
     public MemberRepositoryV4_2(DataSource dataSource) {
         this.dataSource = dataSource;
