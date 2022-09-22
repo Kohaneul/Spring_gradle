@@ -1,22 +1,25 @@
 package jpabook.jpashop;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
+
     @PersistenceContext
-    private EntityManager em;
-    //PersistenceContext 어노테이션이 있으면, 스프링 부트가 엔티티 매니저 주입해줌.
+    private final EntityManager em;
 
     public Long save(Member member){
         em.persist(member);
         return member.getId();
     }
-    public Member findById(Long id){
+
+    public Member find(Long id){
         return em.find(Member.class,id);
     }
 }
