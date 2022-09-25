@@ -27,6 +27,4 @@ public class OrderItem {
     private Integer count;  //주문 수량
 
 
-
-
 }
