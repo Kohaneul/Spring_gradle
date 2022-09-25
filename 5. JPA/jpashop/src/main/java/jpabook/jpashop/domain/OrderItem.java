@@ -26,4 +26,7 @@ public class OrderItem {
     private Integer orderPrice; //주문 가격
     private Integer count;  //주문 수량
 
+
+
+
 }
