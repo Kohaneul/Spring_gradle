@@ -27,4 +27,8 @@ public class Member {
     private List<Order> orders = new ArrayList<>();
 
 
+    public Member(String name){
+        this.name = name;
+    }
+
 }
