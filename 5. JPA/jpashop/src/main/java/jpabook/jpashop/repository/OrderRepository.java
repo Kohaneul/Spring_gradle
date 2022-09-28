@@ -31,7 +31,7 @@ public class OrderRepository {
 
     //동적쿼리
     public List<Order> findAllByString(OrderSearch orderSearch) {
-        //language=JPAQL
+//language=JPAQL
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
         //주문 상태 검색
@@ -52,16 +52,15 @@ public class OrderRepository {
             } else {
                 jpql += " and";
             }
-        }
             jpql += " m.name like :name";
-            TypedQuery<Order> query = em.createQuery(jpql, Order.class)
-                    .setMaxResults(1000); //최대 1000건
-            if (orderSearch.getOrderStatus() != null) {
-                query = query.setParameter("status", orderSearch.getOrderStatus());
-            }
-            if (StringUtils.hasText(orderSearch.getMemberName())) {
-                query = query.setParameter("name", orderSearch.getMemberName());
-            }
+        }
+        TypedQuery<Order> query = em.createQuery(jpql, Order.class).setMaxResults(1000); //최대 1000건
+        if (orderSearch.getOrderStatus() != null) {
+            query = query.setParameter("status", orderSearch.getOrderStatus());
+        }
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            query = query.setParameter("name", orderSearch.getMemberName());
+        }
         return query.getResultList();
     }
 

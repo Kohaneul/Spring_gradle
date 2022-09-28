@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class BookUpdateForm {
-    @NotEmpty(message = "아이디값은 필수입니다.")
+public class UpdateItemDto {
+    @NotNull(message = "아이디값은 필수입니다.")
     private Long id;
     @NotEmpty(message = "상품 이름은 필수입니다.")
     private String name;
