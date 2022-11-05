@@ -1,10 +1,12 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,6 @@ public class Member {
     @GeneratedValue
     @Column(name="member_id")
     private Long id;
-
     private String name;
 
     @Embedded   //내장타입을 포함했다
@@ -27,8 +28,5 @@ public class Member {
     private List<Order> orders = new ArrayList<>();
 
 
-    public Member(String name){
-        this.name = name;
-    }
 
 }

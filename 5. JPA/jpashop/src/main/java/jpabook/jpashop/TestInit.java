@@ -22,7 +22,7 @@ public class TestInit {
     @Autowired  private final MemberService memberService;
     @Autowired  private final OrderService orderService;
 
-    @PostConstruct
+//    @PostConstruct
     public void testInit(){
         Book book = new Book();
         book.setPrice(1000);
