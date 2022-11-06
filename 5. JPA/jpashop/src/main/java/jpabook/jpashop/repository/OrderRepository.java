@@ -1,7 +1,6 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -86,6 +85,16 @@ public class OrderRepository {
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
         return query.getResultList();
+    }
+
+
+
+    public List<Order> findAllWithMemberDelivery() {
+        List<Order> resultList = em.createQuery("select o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d", Order.class).getResultList();
+        //패치조인 : member, delivery 이 fetch 타입이 lazy 여도 쿼리 조회시 이를 무시하고 한번에 가져옴.
+        return resultList;
     }
 
 //    // QueryDSL 로 작성
