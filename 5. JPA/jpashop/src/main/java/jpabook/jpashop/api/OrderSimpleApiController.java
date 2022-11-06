@@ -1,0 +1,36 @@
+package jpabook.jpashop.api;
+
+import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderSearch;
+import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * xToOne(ManyToOne,OneToOne)
+ * Order
+ * Order -> Member 다대일
+ * Order -> Delivery 일대일
+ * */
+@RestController
+@RequiredArgsConstructor
+public class OrderSimpleApiController {
+
+    private final OrderRepository orderRepository;
+
+    @GetMapping("/api/v1/simple-orders")
+    public List<Order> ordersV1(){
+        List<Order> all = orderRepository.findAllByString(new OrderSearch());
+
+        //Lazy 강제 초기화를 시킨다.
+        for (Order order : all) {
+            order.getMember().getName();
+            order.getDelivery().getAddress();
+        }
+        return all;
+    }
+}

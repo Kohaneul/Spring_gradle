@@ -19,11 +19,12 @@ public class Member {
     @GeneratedValue
     @Column(name="member_id")
     private Long id;
+
     private String name;
 
     @Embedded   //내장타입을 포함했다
     private Address address;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 

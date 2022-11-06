@@ -23,6 +23,7 @@ public class MemberApiController {
       return  members;
   }
 
+
   @GetMapping("/api/v2/members")
   public Result memberV2(){
     List<Member> findMembers = memberService.findAll();
@@ -36,8 +37,9 @@ public class MemberApiController {
       memberService.join(member);
       return new CreateMemberResponse(member.getId());
   }
-    @Data
-    @AllArgsConstructor
+
+  @Data
+  @AllArgsConstructor
   static class Result<T>{
       private int count;
       private T data;
