@@ -5,16 +5,16 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -28,7 +28,8 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class OrderSimpleApiController {
 
-    private final OrderRepository orderRepository;
+    private final OrderRepository orderRepository; //repository는 가급적 순수한 entity를 조회하기 위해 사용한다.
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository; //화면에 보여주기 용도의 repository
 
     @GetMapping("/api/v1/simple-orders")
     public List<Order> ordersV1(){
@@ -47,10 +48,21 @@ public class OrderSimpleApiController {
         return orderRepository.findAllWithMemberDelivery().stream().map(SimpleOrderDto::new).collect(toList());
     }
 
+
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> ordersV4(){
+       return orderSimpleQueryRepository.findDtos();
+    }
+
+
+
+
+
     @GetMapping("/api/v2/simple-orders")
     public List<SimpleOrderDto> ordersV2(){
         return orderRepository.findAllByString(new OrderSearch()).stream().map(SimpleOrderDto::new).collect(toList());
     }
+
 
 
     @Data
@@ -71,4 +83,6 @@ public class OrderSimpleApiController {
         }
 
     }
+
+
 }

@@ -1,6 +1,7 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -96,6 +97,7 @@ public class OrderRepository {
         //패치조인 : member, delivery 이 fetch 타입이 lazy 여도 쿼리 조회시 이를 무시하고 한번에 가져옴.
         return resultList;
     }
+
 
 //    // QueryDSL 로 작성
 //    public List<Order> findAllByQueryDsl(OrderSearch orderSearch){
