@@ -1,8 +1,6 @@
 package jpabook.jpashop.api;
 
-import jpabook.jpashop.domain.Address;
-import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderStatus;
+import jpabook.jpashop.domain.*;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
@@ -32,41 +30,31 @@ public class OrderSimpleApiController {
     private final OrderSimpleQueryRepository orderSimpleQueryRepository; //화면에 보여주기 용도의 repository
 
     @GetMapping("/api/v1/simple-orders")
-    public List<Order> ordersV1(){
+    public List<Order> ordersV1(){  //** 좋은 방법이 아님 : Entity를 노출하면 안된다.
         List<Order> all = orderRepository.findAllByString(new OrderSearch());
 
         //Lazy 강제 초기화를 시킨다.
         for (Order order : all) {
-            order.getMember().getName();
-            order.getDelivery().getAddress();
+            order.getMember().getName();    //getMember까지는 프록시 객체, getName부터는 실제 객체 조회
+            order.getDelivery().getAddress(); //getDelivery까지는 프록시 객체, getName부터는 실제 객체 조회
         }
         return all;
     }
-
-
-
 
     @GetMapping("/api/v2/simple-orders")
     public List<SimpleOrderDto> ordersV2(){
         return orderRepository.findAllByString(new OrderSearch()).stream().map(SimpleOrderDto::new).collect(toList());
     }
 
-
-
     @GetMapping("/api/v3/simple-orders")
     public List<SimpleOrderDto> ordersV3(){
         return orderRepository.findAllWithMemberDelivery().stream().map(SimpleOrderDto::new).collect(toList());
     }
 
-
     @GetMapping("/api/v4/simple-orders")
     public List<OrderSimpleQueryDto> ordersV4(){
        return orderSimpleQueryRepository.findOrderDtos();
     }
-
-
-
-
 
     @Data
     @AllArgsConstructor
