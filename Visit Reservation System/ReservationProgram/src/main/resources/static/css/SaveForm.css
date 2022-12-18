@@ -1,0 +1,68 @@
+label input{
+  height:20px;
+}
+
+#viewPage{
+    margin-left:30%;
+    margin-top:10%;
+}
+
+label{
+    color:#aaaaaa;
+
+}
+
+h5{
+  padding-top:10px;
+}
+#date{
+    display:inline;
+}
+#date select{
+  font-size:13px;
+  text-align:center;
+   display:inline-block;
+  width: 9.8%;
+  height:45px;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #a9b6c4;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+
+.field-error {
+  color: #dc3545;
+  margin-left:10px;
+}
+
+
+
+#employeeInfo{
+ margin-left:10px;
+ text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-color :  #ced4da;
+    text-decoration-thickness : 3px;
+}
+#date label{
+  margin-top:-25px;
+  margin-left:50px;
+}
+
+
+
+.col-md-6 button{
+  margin-top:5px;
+  height:50px;
+}
+

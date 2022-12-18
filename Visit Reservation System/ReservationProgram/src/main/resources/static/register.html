@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/All.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/SaveForm.css}"/>
+
+<title>방문자 등록 Form</title>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Register - SB Admin</title>
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/SaveForm.css" rel="stylesheet" />
+        <link href="css/All.css" rel="stylesheet" />
+
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="bg-primary">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-7">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+                                    <div class="card-body">
+                                        <form role="form" th:object="${visitor}" method="post" >
+                                            <div class="col-md-6">
+                                                <div th:if="${#fields.hasGlobalErrors()}">
+                                                    <p class="field-error"  id="globalError" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <label th:for="name">방문자 이름</label>
+                                                        <input type="text" th:field="*{name}" class="form-control" placeholder="ex) 홍길동"
+                                                               th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+                                                        <p class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect date</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <label th:for="phone_number">연락처</label>
+                                                        <input type="text" th:field="*{phone_number}" class="form-control" placeholder="연락처"
+                                                               th:class="${#fields.hasErrors('phone_number')}? 'form-control fieldError' : 'form-control'">
+                                                        <p class="field-error" th:if="${#fields.hasErrors('phone_number')}" th:errors="*{phone_number}">Incorrect date</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                    <label th:for="company">소속회사</label>
+                                                    <input type="text" th:field="*{company}" class="form-control" placeholder="회사명을 정확히 입력해주세요"
+                                                           th:class="${#fields.hasErrors('company')}? 'form-control fieldError' : 'form-control'">
+                                                    <p class="field-error" th:if="${#fields.hasErrors('company')}" th:errors="*{company}">Incorrect date</p>
+                                                 </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div>
+                                                <span>
+                                                    <span class="form-floating">
+                                                        <label th:for="visit_date1">월1111</label>
+                                                        <input type="text" th:field="*{visit_date1.month}" class="form-control"
+                                                               th:class="${#fields.hasErrors('visit_date1.month')}? 'form-control fieldError' : 'form-control'">
+                                                        <p class="field-error" th:if="${#fields.hasErrors('visit_date1.month')}" th:errors="*{visit_date1.month}">Incorrect date</p>
+                                                    </span>
+                                                    <span class="form-floating">
+                                                        <label th:for="visit_date1">월2222</label>
+                                                        <input type="text" th:field="*{visit_date1.month}" class="form-control"
+                                                               th:class="${#fields.hasErrors('visit_date1.month')}? 'form-control fieldError' : 'form-control'">
+                                                        <p class="field-error" th:if="${#fields.hasErrors('visit_date1.month')}" th:errors="*{visit_date1.month}">Incorrect date</p>
+                                                    </span>
+                                                </span>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="date">
+                                                <input type="text" th:field="*{visit_date1.month}" class="form-control" placeholder="월"
+                                                       th:class="${#fields.hasErrors('visit_date1.month')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date1.month')}" th:errors="*{visit_date1.month}">Incorrect date</p>
+                                                <input type="text" th:field="*{visit_date1.day}" class="form-control" placeholder="일"
+                                                       th:class="${#fields.hasErrors('visit_date1.day')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date1.day')}" th:errors="*{visit_date1.day}">Incorrect date</p>
+                                                <input type="text" th:field="*{visit_date1.hour}" class="form-control" placeholder="시간"
+                                                       th:class="${#fields.hasErrors('visit_date1.hour')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date1.hour')}" th:errors="*{visit_date1.hour}">Incorrect date</p>
+                                                <input type="text" th:field="*{visit_date1.minute}" class="form-control" placeholder="분"
+                                                       th:class="${#fields.hasErrors('visit_date1.minute')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date1.minute')}" th:errors="*{visit_date1.minute}">Incorrect date</p> ~
+                                                <label th:for="visit_date2"></label>
+                                                <input type="text" th:field="*{visit_date2.month}" class="form-control" placeholder="월"
+                                                       th:class="${#fields.hasErrors('visit_date2.month')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date2.month')}" th:errors="*{visit_date2.month}">Incorrect date</p>
+                                                <input type="text" th:field="*{visit_date2.day}" class="form-control" placeholder="일"
+                                                       th:class="${#fields.hasErrors('visit_date2.day')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date2.day')}" th:errors="*{visit_date2.day}">Incorrect date</p>
+                                                <input type="text" th:field="*{visit_date2.hour}" class="form-control" placeholder="시간"
+                                                       th:class="${#fields.hasErrors('visit_date2.hour')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date2.hour')}" th:errors="*{visit_date2.hour}">Incorrect date</p>
+                                                <input type="text" th:field="*{visit_date2.minute}" class="form-control" placeholder="분"
+                                                       th:class="${#fields.hasErrors('visit_date2.minute')}? 'form-control fieldError' : 'form-control'">
+                                                <p class="field-error" th:if="${#fields.hasErrors('visit_date2.minute')}" th:errors="*{visit_date2.minute}">Incorrect date</p>
+                                            </div>
+
+
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" />
+                                                        <label for="inputPassword">Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
+                                                        <label for="inputPasswordConfirm">Confirm Password</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4 mb-0">
+                                                <div class="d-grid"><a class="btn btn-primary btn-block" href="login.html">Create Account</a></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="login.html">Have an account? Go to login</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

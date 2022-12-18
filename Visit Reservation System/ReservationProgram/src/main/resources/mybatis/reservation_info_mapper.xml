@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.visit.program.ReservationProgram.domain.repository.ReservationRepository">
+
+    <select id = "findAll" resultType="com.visit.program.ReservationProgram.domain.dao.Reservation">
+        select r.id,ve.visitor,r.visitor_id,ve.company_person,ve.visit_date1,ve.visit_date2,ve.company,ve.phone_number,ve.birth,ve.is_checked from Reservation_info r
+        inner join
+        (select v.company as company,v.phone_number as phone_number,v.id as vid, e.id as employeekey, e.employee_id,v.name as visitor,
+            concat(e.name,'(',e.department,')') as company_person,
+        v.birth as birth,v.visit_date1,v.visit_date2,v.is_checked from visitor v inner join employee e on v.employee_id = e.id) ve on ve.vid = r.visitor_id
+        order by r.id desc
+    </select>
+
+    <select id="saveInfo">
+        insert into Reservation_info(employee_id, visitor_id, is_checked)
+        values(#{employee_id},#{visitor_id},#{is_checked});
+    </select>
+
+    <select id="findOne" resultType="com.visit.program.ReservationProgram.domain.dao.Reservation">
+        select r.id,ve.visitor,r.visitor_id,ve.company_person,ve.visit_date1,ve.visit_date2,ve.company,ve.phone_number,ve.birth,ve.is_checked from Reservation_info r inner join
+        (select v.company as company,v.phone_number as phone_number,v.id as vid, e.id as employeekey, e.employee_id,v.name as visitor,concat(e.name,'(',e.department,')') as company_person,
+        v.birth as birth,v.visit_date1,v.visit_date2,v.is_checked from visitor v inner join employee e on v.employee_id = e.id) ve on ve.vid = r.visitor_id
+        where id = #{id}
+    </select>
+
+
+    <select id="findInfoOne" resultType="com.visit.program.ReservationProgram.domain.dao.ReservationInfo">
+     select * from Reservation_info where id =#{id};
+    </select>
+
+    <select id="deleteInfo">
+        delete from Reservation_info where id = #{id};
+    </select>
+
+
+
+    <select id = "findAllDTO" resultType="com.visit.program.ReservationProgram.domain.dao.Reservation">
+        select r.id, v.visitor_id, v.visitor, v.company_person, v.visit_date1, v.visit_date2, v.phone_number, v.birth, v.company, is_checked
+        from Reservation_info r inner join
+        (select v.company as company, v.phone_number as phone_number,v.id as visitor_id, employee_id,v.name as visitor,concat(e.name,'(',e.department,')') as company_person,
+        v.birth as birth,v.visit_date1,v.visit_date2 from visitor v inner join employee e on v.employee_id = e.id) v
+        on v.employee_id = r.employee_id and r.visitor_id = v.visitor_id
+        <where>
+            <if test="employee_id!=null and employee_id!=''">
+                and employee_id  = #{employee_id}
+            </if>
+            <if test="is_checked!=null and is_checked!=''">
+                and is_checked = #{is_checked}
+            </if>
+        </where>
+    </select>
+
+
+
+
+    <select id = "findAllPages" resultType="com.visit.program.ReservationProgram.domain.dao.Reservation">
+        select  row_number() over(order by r.id desc) as no , r.id, v.visitor_id, v.visitor, v.company_person, v.visit_date1, v.visit_date2, v.phone_number, v.birth, v.company, is_checked
+        from Reservation_info r inner join
+        (select v.company as company, v.phone_number as phone_number,v.id as visitor_id, e.employee_id,v.name as visitor,concat(e.name,'(',e.department,')') as company_person,
+        v.birth as birth,v.visit_date1,v.visit_date2 from visitor v inner join employee e on v.employee_id = e.id) v
+        on v.employee_id = r.employee_id and r.visitor_id = v.visitor_id
+        limit #{start} , #{end}
+    </select>
+
+
+
+
+    <select id="updateCheckedInfo">
+        update Reservation_info set is_checked=#{is_checked} where id = #{id};
+    </select>
+
+
+
+</mapper>
+
+
+

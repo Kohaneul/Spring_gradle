@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<link rel="stylesheet" type="text/css" th:href="@{/css/CategorySelect.css}"/>-->
+<title>메뉴고르기</title>
+
+<body>
+
+<div class="container">
+
+    <h3 id="h4Style"> 사번 선택</h3>
+
+    <div id = "Ctitle">접견자를 골라주세요 </div>
+    <div id="CForm">
+        <form name="childForm" target="popupName">
+
+            <input type="hidden" id="cInput" value=""/>
+            <div th:each="employee : ${employeeList}">
+                <div>
+                    <input type="radio" name = "employeeId" th:employeeId="${employee.id}" th:onclick="radioCheck(this.getAttribute('employeeId'))">
+                    <span th:text="${cal.categoryName}"></span>
+                </div>
+            </div>
+            <input type="hidden" id="employeeIdSelect" name ="employeeIdSelect" value=""/>
+            <input type = "submit" id = "btn1" value="선택" th:onclick= "closeAndSendParam()" />
+        </form>
+    </div>
+</div>
+<div id="borderStyle"></div>
+<script type="text/javascript" th:src="@{/js/EmployeeSelect.js}"></script>
+
+</body>
+</html>

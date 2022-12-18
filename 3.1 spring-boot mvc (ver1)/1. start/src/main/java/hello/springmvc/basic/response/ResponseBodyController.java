@@ -19,7 +19,6 @@ public class ResponseBodyController {
 
 
 
-
     @GetMapping("/response-body-string-v1")
     public void responseBodyV1(HttpServletResponse response) throws IOException {
         response.getWriter().write("ok");

@@ -1,0 +1,34 @@
+#viewPage{
+    margin-left:30%;
+    margin-top:10%;}
+.card.mb-4{
+  width:950px;
+  margin-left:1%;
+}
+.company_person {
+  width:115px;
+}
+.is_checked{
+  width:50px;
+}
+
+#dataIsNull{
+    font-size:14px;
+    text-align:center;
+    margin-left:40%;
+    color:#868686;
+
+
+}
+.card.mb-4 table{
+    font-size:14px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align:center;
+    border-top: 3px solid #dddddd;
+    border-bottom:3px solid #dddddd;
+}
+
+  th, td {
+    padding: 8px;
+  }
