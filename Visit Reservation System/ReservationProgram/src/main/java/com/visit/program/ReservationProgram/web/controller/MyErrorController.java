@@ -1,9 +1,7 @@
 package com.visit.program.ReservationProgram.web.controller;
-import com.visit.program.ReservationProgram.domain.ex.ErrorMessage;
 import com.visit.program.ReservationProgram.domain.ex.NothingEmployeeEx;
 import com.visit.program.ReservationProgram.domain.ex.ReviseCountExcess;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.TypeMismatchException;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +16,8 @@ import java.net.BindException;
 @RequestMapping("/error")
 public class MyErrorController implements ErrorController {
 
-  @ExceptionHandler({NumberFormatException.class, BindException.class, NullPointerException.class, NothingEmployeeEx.class})
+  @ExceptionHandler({BindException.class,NothingEmployeeEx.class})
   public void NumberFormatEx(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
       Error error = new Error();
       String message = error.getMessage();
       String referURL = request.getHeader("REFERER");

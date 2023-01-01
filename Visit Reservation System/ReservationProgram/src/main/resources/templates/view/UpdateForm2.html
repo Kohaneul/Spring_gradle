@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <link rel="stylesheet" type="text/css" th:href="@{/css/Error.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/css/SaveForm.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/UpdateForm.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
-<title>방문자 등록 Form</title>
+<title>방문자 수정 Form</title>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,7 +16,6 @@
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-primary">
-
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
         <main>
@@ -28,17 +27,17 @@
                                 <img th:src="@{/images/rapigen_logo.png}" width="200"/>          방문 예약 프로그램</h1></span>
                             </h3></div>
                             <div class="card-body">
-                                <form role="form" th:object="${visitor}" method="post" name="sendFrm">
-                                    <div>
+                                <form role="form" th:object="${visitor}" method="post" >
+                                    <div class="col-md-6">
                                         <div th:if="${#fields.hasGlobalErrors()}">
-                                            <p class="field-error" id="globalError" th:text="${errorMsg}"></p>
+                                            <p class="field-error"  id="globalError" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
                                         </div>
-                                        <div th:if="${wrongPhoneNumber!=null}">
-                                            <p class="field-error" id="wrongPhoneNumber" th:text="${wrongPhoneNumber}"></p>
-                                        </div>
-
-
                                     </div>
+                                    <input type="hidden" th:field="*{id}">
+                                    <input type="hidden" th:field="*{write_date}">
+                                    <input type="hidden" th:field="*{revised_write_date}">
+                                    <input type="hidden" th:field="*{count}">
+                                    <input type="hidden" th:field="*{is_checked}">
                                     <h5> 접견자 정보 </h5>
                                     <hr>
                                     <div class="row mb-3">
@@ -62,10 +61,9 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3 mb-md-0">
-                                                <div class="textA">연락처(<span id="phoneNumberTxt" th:text="010-0000-0000"></span> 형식으로 적어주세요)</div>
-                                                <input type="text" th:field="*{phone_number}" class="form-control"  placeholder="010-0000-0000 형식으로 적어주세요"
+                                                <div class="textA">연락처</div>
+                                                <input type="text" th:field="*{phone_number}" class="form-control"
                                                        th:class="${#fields.hasErrors('phone_number')}? 'form-control fieldError' : 'form-control'">
-
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +81,7 @@
                                         <div class="col-md-6">
                                             <div class="form-floating">
                                                 <span class="textA">생년월일</span>
-                                                <input type="date" th:field="*{birth}" class="form-control"
+                                                <input type="text" th:field="*{birth}" class="form-control"
                                                        th:class="${#fields.hasErrors('birth')}? 'form-control fieldError' : 'form-control'">
                                             </div>
                                         </div>
@@ -98,60 +96,42 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <h5>날짜 선택</h5>
+                                    <br>
+                                    <h5>날짜 수정
+                                    </h5>
                                     <hr>
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3 mb-md-0">
                                                 <span class="textA">방문일1</span>
-                                                <input type="date" th:field="*{visit_date1}" class="form-control"
+                                                <input type="text" th:field="*{visit_date1}" class="form-control"
                                                        th:class="${#fields.hasErrors('visit_date1')}? 'form-control fieldError' : 'form-control'">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
                                                 <span class="textA">방문일2</span>
-                                                <input type="date" th:field="*{visit_date2}" class="form-control"
+                                                <input type="text" th:field="*{visit_date2}" class="form-control"
                                                        th:class="${#fields.hasErrors('visit_date2')}? 'form-control fieldError' : 'form-control'">
                                             </div>
                                         </div>
                                     </div>
+
+                                   수정횟수 : <span id = "cnt" th:text="${visitor.count}"> </span>/2
+
                                     <div class="mt-4 mb-0">
-                                        <div class="d-grid"><input type="submit" class="btn btn-primary btn-block">submit</input></div>
+                                        <div class="d-grid"><button type="submit" class="btn btn-primary btn-block">Submit</button></div>
                                     </div>
                                 </form>
                             </div>
                             <div class="card-footer text-center py-3">
-                                <div class="small"><a th:href="@{/reservation/info/all_}">HOME</a></div>
+                                <div class="small"><a th:href="@{/reservation/info/all}">HOME</a></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-
-
-        <script th:inline="javascript">
-    /*<![CDATA[*/
-    function sendFrm(){
-        let form = document.creteElement('form');
-
-        if(confirm("등록하시겠습니까?")){
-          form.setAttribute('method','post');
-          form.submit();
-        }
-        else{
-              window.location.href = '/reservation/info/save';
-        }
-
-    }
-
-
-    /*]]>*/
-</script>
-
-
     </div>
     <div id="layoutAuthentication_footer">
         <footer class="py-4 bg-light mt-auto">
@@ -168,11 +148,7 @@
         </footer>
     </div>
 </div>
-
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="js/calender.js"></script>
-
 </body>
 </html>

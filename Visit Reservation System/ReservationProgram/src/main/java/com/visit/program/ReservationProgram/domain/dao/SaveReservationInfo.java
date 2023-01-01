@@ -10,8 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveReservationInfo {
-
-    private Long employee_id;
     private Long visitor_id;
-    private boolean is_checked;
+    private Boolean is_checked;
 }

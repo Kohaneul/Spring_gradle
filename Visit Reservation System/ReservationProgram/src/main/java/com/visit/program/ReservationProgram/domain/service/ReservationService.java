@@ -4,6 +4,8 @@ import com.visit.program.ReservationProgram.domain.dao.Reservation;
 import com.visit.program.ReservationProgram.domain.dao.ReservationInfo;
 import com.visit.program.ReservationProgram.domain.dao.SaveReservationInfo;
 import com.visit.program.ReservationProgram.domain.dao.Visitor;
+import com.visit.program.ReservationProgram.domain.dto.ReservationDTO;
+import com.visit.program.ReservationProgram.domain.dto.VisitorSearchDTO;
 import com.visit.program.ReservationProgram.domain.repository.ReservationRepository;
 import com.visit.program.ReservationProgram.domain.repository.VisitorRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReservationService {
-    private final VisitorRepository visitorRepository;
 
     private final ReservationRepository reservationRepository;
 
@@ -31,18 +32,12 @@ public class ReservationService {
 
     @Transactional
     public void updateCheckedInfo(Long id){
-        Visitor visitor = visitorRepository.findOne(id);
-        reservationRepository.updateCheckedInfo(visitor.is_checked(),id);
+        reservationRepository.updateCheckedInfo(id);
     }
     @Transactional
     public void saveInfo(SaveReservationInfo saveReservationInfo){
         reservationRepository.saveInfo(saveReservationInfo);
     };
-
-
-
-
-
     @Transactional
     public void deleteInfo(Long id){
         reservationRepository.deleteInfo(id);
@@ -56,6 +51,9 @@ public class ReservationService {
         return reservationRepository.findOne(id);
     }
 
+    public List<Reservation> findAllDTO(ReservationDTO reservationDTO){
+        return  reservationRepository.findAllDTO(reservationDTO);
+    }
 
 
 }

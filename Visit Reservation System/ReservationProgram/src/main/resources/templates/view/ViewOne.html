@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/Error.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/ViewOne.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
-<title>방문자 상세 조회</title>
+<title>방문자 조회</title>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,14 +16,39 @@
 
 
     <script th:inline="javascript">
-                /*<![CDATA[*/
+    /*<![CDATA[*/
+    function sendUpdateFrm(){
+    let reservationId = document.getElementById('reservationId').value;
+              console.log(reservationId);
 
-                function setCheck(id){
-                console.log(id);
-                    window.location.href = '/reservation/info/click/'+id;
-                }
-          /*]]>*/
-         </script>
+        if(confirm("수정 하시겠습니까?"))
+        {
+          console.log(reservationId);
+        window.location.href = '/reservation/info/'+reservationId+'/update';
+        }
+        else{
+        window.location.href = '/reservation/info/'+id;
+        }
+
+    }
+
+    function sendDeleteFrm(){
+        let reservationId = document.getElementById('reservationId').value;
+        console.log(reservationId);
+
+        if(confirm("삭제 하시겠습니까?")){
+        window.location.href = '/reservation/info/'+reservationId+'/delete';
+        }
+        else{
+        window.location.href = '/reservation/info/'+reservationId;
+        }
+
+    }
+
+
+    /*]]>*/
+</script>
+
 </head>
 <body class="bg-primary">
 <div id="layoutAuthentication">
@@ -34,39 +59,45 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-7">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">
-                                    <img th:src="@{/images/rapigen_logo.png}" width="200"/>
-
-                                </h3></div>
+                                <span class="card-header">
+                                    <h1 class="text-center font-weight-light my-4">
+                                    <img th:src="@{/images/rapigen_logo.png}" width="200"/>  방문 예약 프로그램</h1></span>
                                 <div class="card-body">
                                     <div class="card mb-4">
                                         <div class="card-header">
                                             <i class="fas fa-table me-1"></i>
-                                            방문자 상세내용
+                                            방문자 상세 내용
                                         </div>
-                                        <div id="contents">
-                                            <ol> 이름 :  <span th:text="${reservation.visitor}"></span></ol>
-                                            <ol> 접견자(사번) :  <span th:text="${reservation.company_person}"></span></ol>
-                                            <ol> 방문 일자 :  <span th:text="${reservation.visit_Date1}"></span>~<span th:text="${reservation.visit_Date2}"></span></ol>
-                                            <ol> 생년월일 :  <span th:text="${reservation.birth}"></span></ol>
-                                            <ol> 연락처 :  <span th:text="${reservation.phone_number}"></span></ol>
-                                            <ol> 회사 :  <span th:text="${reservation.company}"></span></ol>
-                                            <ol> 방문 목적 :  <span th:text="${visitor.purpose}"></span></ol>
-                                            <ol> 작성일 :  <span th:text="${visitor.write_date}"></span></ol>
-                                            <ol> 방문여부 :
-                                                <span th:text="${visitor.is_checked()==true}? '방문 O' : '방문 X'"></span>
-                                            </ol>
-                                            <div>
-
-                                                <a th:href="@{/reservation/info/all}"> <button class="btn btn-primary btn-block"> 목록보기</button></a>
-                                                <a th:href="@{/reservation/info/{id}/update (id=${reservation.id})}"> <button class="btn btn-primary btn-block"> 수정하기</button></a>
-                                                <a th:href="@{/reservation/info/{id}/delete (id=${reservation.id})}"> <button class="btn btn-primary btn-block"> 삭제하기</button></a>
-
+                                        <div class="card-body">
+                                            <div id="contents">
+                                                <ol> 이름 :  <span th:text="${visitor.name}"></span></ol>
+                                                <ol> 접견자 :  <span th:text="${visitor.employee_name}"></span></ol>
+                                                <ol> 방문 일자 :  <span th:text="${visitor.visit_date1}"></span>~<span th:text="${visitor.visit_date2}"></span></ol>
+                                                <ol> 생년월일 :  <span th:text="${visitor.birth}"></span></ol>
+                                                <ol> 연락처 :  <span th:text="${visitor.phone_number}"></span></ol>
+                                                <ol> 회사 :  <span th:text="${visitor.company}"></span></ol>
+                                                <ol> 방문 목적 :  <span th:text="${visitor.purpose}"></span></ol>
+                                                <ol> 작성일 :  <span th:text="${visitor.write_date}"></span></ol>
+                                                <ol> 방문여부 :
+                                                    <span th:text="${visitor.is_checked==true}? '방문 O' : '방문 X'"></span>
+                                                </ol>
+<!--                                                <span id="reservationId" th:value="${reservationId}"></span>-->
+                                                <div>
+                                                    <a th:href="@{/reservation/info/all}"> <button class="btn btn-primary btn-block"> 목록보기</button></a>
+                                                    <span th:if="${session.employeeSession!=null}">
+                                                    <a th:href="@{/reservation/info/{id}/update (id=${reservation.id})}"> <button class="btn btn-primary btn-block" th:onclick="sendUpdateFrm(${reservationId});"> 수정하기</button></a>
+                                                        <!--                                                        <button class="btn btn-primary btn-block" th:onclick="sendUpdateFrm();"> 수정하기</button>-->
+                                                        <!--                                                        <button class="btn btn-primary btn-block" th:onclick="sendDeleteFrm();"> 삭제하기</button>-->
+                                                    <a th:href="@{/reservation/info/{id}/delete (id=${reservation.id})}"> <button class="btn btn-primary btn-block" th:onclick="sendDeleteFrm();"> 삭제하기</button></a>
+                                                    </span>
+                                                </div>
                                             </div>
+
+
                                         </div>
-                                        <div class="card-footer text-center py-3">
-                                            <div class="small"><a th:href="@{/reservation/info/all}">HOME</a></div>
-                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small"><a th:href="@{/reservation/info/all_}">HOME</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -74,10 +105,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </main>
     </div>
 

@@ -1,82 +1,24 @@
 package com.visit.program.ReservationProgram.domain.dao;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
+@Setter
 public class PageMaker {
-    private Criteria cri;
-    private int totalCount;
-    private int startPage;
-    private int endPage;
-    private boolean prev;
-    private boolean next;
-    private int displayPageNum;
+    private int totalPage;
+    private int boardNo;    // 현재 페이지
+    private int startBoardNo;    //내 현재 페이지의 첫번호
+    private int endBoardNo; //내 현재 페이지의 끝번호
+    private int boardPerNo = 7; //한 페이지에 있는 게시글
+    private int pagePerNo = 5; //페이지당 번호
+    private int pageStartNo;    //페이지의 첫번호
+    private int pageEndNo;      //페이지의 끝번호
 
-    public Criteria getCri() {
-        return cri;
-    }
-    public void setCri(Criteria cri) {
-        this.cri = cri;
-    }
-    public int getTotalCount() {
-        return totalCount;
-    }
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-        calcData();
-    }
+    public PageMaker() {
+        this.startBoardNo = ((int)(Math.ceil(boardNo/boardPerNo))-1)*boardPerNo+1;
 
-    private void calcData() {
-
-        endPage = (int) (Math.ceil(cri.getPage() / (double) displayPageNum) * displayPageNum);
-
-        startPage = (endPage - displayPageNum) + 1;
-        if(startPage <= 0) startPage = 1;
-
-        int tempEndPage = (int) (Math.ceil(totalCount / (double) cri.getPerPageNum()));
-        if (endPage > tempEndPage) {
-            endPage = tempEndPage;
-        }
-
-        prev = startPage == 1 ? false : true;
-        log.info("startPage={}",startPage);
-        log.info("prev={}",prev);
-        next = endPage * cri.getPerPageNum() < totalCount ? true : false;
-        log.info("next={}",next);
-        log.info("endPage={}",endPage);
     }
-
-    public int getStartPage() {
-        return startPage;
-    }
-    public void setStartPage(int startPage) {
-        this.startPage = startPage;
-    }
-    public int getEndPage() {
-        return endPage;
-    }
-    public void setEndPage(int endPage) {
-        this.endPage = endPage;
-    }
-    public boolean isPrev() {
-        return prev;
-    }
-    public void setPrev(boolean prev) {
-        this.prev = prev;
-    }
-    public boolean isNext() {
-        return next;
-    }
-    public void setNext(boolean next) {
-        this.next = next;
-    }
-    public int getDisplayPageNum() {
-        return displayPageNum;
-    }
-    public void setDisplayPageNum(int displayPageNum) {
-        this.displayPageNum = displayPageNum;
-    }
-
-
-
 }

@@ -26,9 +26,9 @@
     </select>
 
     <insert id="saveInfo" parameterType="com.visit.program.ReservationProgram.domain.dao.Visitor" useGeneratedKeys="true" keyProperty="id">
-        insert into visitor(employee_id,name,phone_number,company,visit_date1,visit_date2,birth,purpose,write_date,revised_write_date,count,is_checked)
-                   values(#{employee_id},#{name},#{phone_number},#{company},#{visit_date1},#{visit_date2},#{birth},#{purpose},#{write_date},#{revised_write_date},#{count},#{is_checked});
-    </insert>
+        insert into visitor(employee_name,name,phone_number,company,visit_date1,visit_date2,birth,purpose,write_date,revised_write_date,count,is_checked)
+        values(#{employee_name},#{name},#{phone_number},#{company},#{visit_date1},#{visit_date2},#{birth},#{purpose},#{write_date},#{revised_write_date},#{count},#{is_checked})
+        </insert>
 
 
     <select id="deleteInfo">
@@ -36,17 +36,13 @@
     </select>
 
     <select id="updateInfo">
-        update visitor set employee_id=#{employee_id},name=#{name},phone_number=#{phone_number},company=#{company},visit_date1=#{visit_date1},visit_date2=#{visit_date2},
-        birth=#{birth},purpose=#{purpose},write_date=#{write_date},revised_write_date=#{revised_write_date},count=#{count},is_checked=#{is_checked} where id = #{id};
+        update visitor set employee_name=#{employee_name},name=#{name},phone_number=#{phone_number},company=#{company},visit_date1=#{visit_date1},visit_date2=#{visit_date2},
+        birth=#{birth},purpose=#{purpose},write_date=#{write_date},revised_write_date=#{revised_write_date},count=#{count}+1,is_checked=#{is_checked} where id = #{id};
     </select>
 
     <select id="updateCheckedInfo">
-        update visitor set is_checked=#{is_checked} where id = #{id};
+        update visitor set is_checked=true where id = #{id};
     </select>
-
-
-
-
 
 
 </mapper>

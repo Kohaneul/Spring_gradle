@@ -5,26 +5,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class Visitor {
     private Long id;
-    private Long employee_id;
+    private String employee_name;
     private String name;
     private String phone_number;
+    private String company;
     private String visit_date1;
     private String visit_date2;
-    private String company;
     private String birth;
     private String purpose;
     private String write_date;
-    private String revised_write_date;
     private int count;
-    private boolean is_checked;
-    public Visitor(Long employee_id,String name,String phone_number, String company,String visit_date1, String visit_date2,String birth,String purpose, String write_date,
-                   String revised_write_date, int count,boolean is_checked){
-        this.employee_id  = employee_id;
+    private String revised_write_date;
+    private Boolean is_checked;
+    public Visitor(String employee_name,String name,String phone_number, String company,String visit_date1, String visit_date2,String birth,String purpose, String write_date,
+                   String revised_write_date, int count,Boolean is_checked){
+        this.employee_name  = employee_name;
         this.name = name;
         this.phone_number = phone_number;
         this.company = company;

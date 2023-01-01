@@ -5,6 +5,10 @@ label input{
 #employee_id{
   color:#929292;
 }
+img{
+  margin-top:-10px;
+  margin-left:24px;
+}
 
 
 #viewPage{

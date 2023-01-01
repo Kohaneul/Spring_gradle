@@ -23,11 +23,10 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4">
-                                <img th:src="@{/images/rapigen_logo.png}" width="200"/>
+                            <div class="card-header"><h2 class="text-center font-weight-light my-4">
+                                <img th:src="@{/images/rapigen_logo.png}" width="200"/>  방문 예약 프로그램</h1></span>
 
-
-                            </h3></div>
+                            </h2></div>
                             <div class="card-body">
                                 <form role="form" th:object="${visitor}" method="post" >
                                     <div class="col-md-6">
@@ -38,17 +37,17 @@
                                     <input type="hidden" th:field="*{id}" class="form-control">
                                     <input type="hidden" th:field="*{write_date}" class="form-control">
                                     <input type="hidden" th:field="*{count}" class="form-control">
+                                    <input type="hidden" th:field="*{revised_write_date}" class="form-control">
 
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3 mb-md-0">
-                                                <label th:for="employee_id">담당자이름(사번)</label>
-                                                <input type="text" th:field="*{employee_id}" class="form-control"
-                                                       th:class="${#fields.hasErrors('employee_id')}? 'form-control fieldError' : 'form-control'" readonly>
-                                                <p class="field-error" th:if="${#fields.hasErrors('employee_id')}" th:errors="*{employee_id}">Incorrect date</p>
+                                                <label th:for="employee_name">담당자이름</label>
+                                                <input type="text" th:field="*{employee_name}" class="form-control"
+                                                       th:class="${#fields.hasErrors('employee_name')}? 'form-control fieldError' : 'form-control'" readonly>
+                                                <p class="field-error" th:if="${#fields.hasErrors('employee_name')}" th:errors="*{employee_name}">Incorrect date</p>
                                             </div>
                                         </div>
-
                                     </div>
 
 
@@ -94,101 +93,8 @@
                                     <div class="row mb-3">
                                         <div id="date">
                                             방문일정
-                                            <span class="form-floating">
-                                                    <label th:for="month">월</label>
-                                                    <select th:field="*{month}" class="form-control">
-<!--                                                        <option value="*{month}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "month : ${month}" th:value="${month}" th:text="${month}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('month')}" th:errors="*{month}">Incorrect date</p>
-                                            </span>
-
-                                            <span class="form-floating">
-                                                    <label th:for="day">일</label>
-                                                    <select th:field="*{day}" class="form-control">
-<!--                                                        <option value="*{day}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "day : ${day}" th:value="${day}" th:text="${day}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('day')}" th:errors="*{day}">Incorrect date</p>
-                                            </span>
-
-                                            <span class="form-floating">
-                                                    <label th:for="hour">시</label>
-                                                    <select th:field="*{hour}" class="form-control">
-<!--                                                        <option value="*{hour}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "hour : ${hour}" th:value="${hour}" th:text="${hour}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('hour')}" th:errors="*{hour}">Incorrect date</p>
-                                            </span>
-
-                                            <span class="form-floating">
-
-                                                    <label th:for="minute">분</label>
-                                                    <select th:field="*{minute}" class="form-control">
-<!--                                                        <option value="*{minute}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "minute : ${minute}" th:value="${minute}" th:text="${minute}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('minute')}" th:errors="*{minute}">Incorrect date</p>
-                                            </span>
-                                            ~
-
-                                            <span class="form-floating">
-                                                    <label th:for="month1">월</label>
-                                                    <select th:field="*{month1}" class="form-control">
-<!--                                                        <option value="*{month1}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "month : ${month}" th:value="${month}" th:text="${month}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('month1')}" th:errors="*{month1}">Incorrect date</p>
-
-                                            </span>
-
-                                            <span class="form-floating">
-                                                    <label th:for="day1">일</label>
-                                                    <select th:field="*{day1}" class="form-control">
-<!--                                                        <option value="*{day1}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "day : ${day}" th:value="${day}" th:text="${day}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('day1')}" th:errors="*{day1}">Incorrect date</p>
-                                            </span>
-
-                                            <span class="form-floating">
-                                                    <label th:for="hour1">시</label>
-                                                    <select th:field="*{hour1}" class="form-control">
-<!--                                                        <option value="*{hour1}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "hour : ${hour}" th:value="${hour}" th:text="${hour}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('hour1')}" th:errors="*{hour1}">Incorrect date</p>
-                                            </span>
-
-                                            <span class="form-floating">
-                                                    <label th:for="minute1">분</label>
-                                                    <select th:field="*{minute1}" class="form-control">
-<!--                                                        <option value="*{minute1}" class="form-control" ></option>-->
-                                                        <option th:each=
-                                                                        "minute : ${minute}" th:value="${minute}" th:text="${minute}">
-                                                        </option>
-                                                    </select>
-                                                    <p th:if="${#fields.hasErrors('minute1')}" th:errors="*{minute1}">Incorrect date</p>
-                                            </span>
-
                                         </div>
                                     </div>
-
-
 
                                     <div class="row mb-3">
                                         <div class="col-md-6">
@@ -200,13 +106,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" th:field="*{is_checked}" class="form-control"
+                                           th:class="${#fields.hasErrors('is_checked')}? 'form-control fieldError' : 'form-control'">
+
                                     <div class="mt-4 mb-0">
                                         <div class="d-grid"><button type="submit" class="btn btn-primary btn-block">Submit</button></div>
                                     </div>
                                 </form>
                             </div>
                             <div class="card-footer text-center py-3">
-                                <div class="small"><a th:href="@{/reservation/info/all}">HOME</a></div>
+                                <div class="small"><a th:href="@{/reservation/info/all_}">HOME</a></div>
                             </div>
                         </div>
                     </div>

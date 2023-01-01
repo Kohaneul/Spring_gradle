@@ -1,24 +1,144 @@
+#loginTab{
+    margin-left:29%;
+    margin-bottom:3%;
+}
+
+#loginTab button{
+    margin-left:29%;
+}
+#idArea{
+    margin-top:5%;
+}
+#pwArea{
+    margin-top:2%;
+    margin-bottom:2%;
+
+}
+
+#idArea input{
+    width:500px;
+}
+#pwArea{
+    margin-left:-20px;
+}
+#pwArea input{
+    width:500px;
+}
 #viewPage{
     margin-left:30%;
     margin-top:10%;}
-.card.mb-4{
-  width:950px;
-  margin-left:1%;
+
+.card-body th,td{
+    font-size:20px;
+    border-collapse:collapse;
+    border-spacing : 0;
+}
+.card-body{
+    margin-top:-10px;
+}
+.reservation_id{
+    width:50px;
+}
+.visitor{
+    width:110px;
+}
+#detailView{
+    font-size:15px;
 }
 .company_person {
-  width:115px;
+    width:150px;
 }
+.visit_Date1,.visit_Date2{
+    width:180px;
+    font-size:18px;
+}
+
+#renewDateArea{
+    margin-left:80%;
+    margin-bottom:-30px;
+}
+
+#renewDateArea a
+{
+    text-decoration-line: none;
+
+}
+#renewDateArea button{
+    margin-left:30%;
+    font-size:30px;
+}
+
+#DTO2Text{
+    margin-top:10px;
+}
+
+.phone_number{
+    width:150px;
+    font-size:18px;
+
+}
+.company{
+    font-size:18px;
+}
+
+.birth{
+    font-size:18px;
+}
+#sortTab{
+    margin-left:30%;
+    margin-top:2%;
+    font-size:20px;
+}
+
+#DTO1 input{
+    width:190px;
+    text-align:center;
+    vertical-align:3px;
+    letter-spacing:3px;
+}
+
+#sortTab button{
+    margin-left:10px;
+}
+
+#DTO2 {
+    margin-left:2%;
+}
+
+#DTO2 input{
+    margin-left:5px;
+}
+
+input[type=checkbox] {
+    zoom: 1.5;
+}
+
+img{
+    margin-top:-10px;
+    margin-left:24px;
+}
+
+.card .mb-4{
+    margin-left:1.3%;
+}
+
 .is_checked{
-  width:50px;
+    width:100px;
 }
+
 
 #dataIsNull{
     font-size:14px;
     text-align:center;
-    margin-left:40%;
+    margin-top:1%;
+    margin-bottom:1%;
     color:#868686;
+}
 
-
+#btnArea{
+    margin-top:-2%;
+    margin-bottom:-0.5%;
+    margin-left:2%;
 }
 .card.mb-4 table{
     font-size:14px;
@@ -28,7 +148,6 @@
     border-top: 3px solid #dddddd;
     border-bottom:3px solid #dddddd;
 }
-
-  th, td {
+th, td {
     padding: 8px;
-  }
+}

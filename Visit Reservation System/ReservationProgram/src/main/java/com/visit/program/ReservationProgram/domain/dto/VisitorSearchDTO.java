@@ -6,15 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.Null;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class VisitorSearchDTO {
+
     @Nullable
-    private String name;
-    @Nullable
-    private Long employee_id;
+    private Boolean is_checked;
 
 
 }

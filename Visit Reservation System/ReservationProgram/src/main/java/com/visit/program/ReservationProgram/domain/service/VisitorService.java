@@ -25,9 +25,9 @@ public class VisitorService {
         return visitorRepository.findAll();
     }
 
-    public List<Visitor> findAllDTO(VisitorSearchDTO visitorSearchDTO) {
-        return visitorRepository.findAllDTO(visitorSearchDTO);
-    }
+//    public List<Visitor> findAllDTO(VisitorSearchDTO visitorSearchDTO) {
+//        return visitorRepository.findAllDTO(visitorSearchDTO);
+//    }
 
     public Visitor findOne(Long id) {
         return visitorRepository.findOne(id);
@@ -44,18 +44,12 @@ public class VisitorService {
     @Transactional
     public void updateCheckedInfo(Long id){
         Visitor visitor = findOne(id);
-        boolean checked = visitor.is_checked();
-        checked = checked==true ? false:true;
-        visitorRepository.updateCheckedInfo(checked,id);
-
+        visitorRepository.updateCheckedInfo(id);
     }
 
     private Visitor getVisitor(SaveVisitor visitor) {
         String writeDate = getNowDate();
-        String visitDate1 = setDate(visitor.getMonth(),visitor.getDay(), visitor.getHour(), visitor.getMinute());
-        String visitDate2 = setDate(visitor.getMonth1(),visitor.getDay1(), visitor.getHour1(), visitor.getMinute1());
-
-        return new Visitor(visitor.getEmployee_id(), visitor.getName(), visitor.getPhone_number(), visitor.getCompany(),visitDate1,visitDate2
+        return new Visitor(visitor.getEmployee_name(), visitor.getName(), visitor.getPhone_number(), visitor.getCompany(), visitor.getVisit_date1(), visitor.getVisit_date2()
                 , visitor.getBirth(), visitor.getPurpose(),writeDate,visitor.getRevised_write_date(),0,false);
     }
 
@@ -76,19 +70,11 @@ public class VisitorService {
     //정보 수정
     @Transactional
     public void updateInfo(UpdateVisitor updateVisitor) {
-
-        String revisedDate = getNowDate();
-        String visitDate1 = setDate(updateVisitor.getMonth(),updateVisitor.getDay(), updateVisitor.getHour(), updateVisitor.getMinute());
-        String visitDate2 = setDate(updateVisitor.getMonth1(),updateVisitor.getDay1(), updateVisitor.getHour1(), updateVisitor.getMinute1());
-        int count =   updateVisitor.getCount()+1;
-        visitorRepository.updateInfo(updateVisitor.getEmployee_id(),
-                updateVisitor.getName(), updateVisitor.getPhone_number(), updateVisitor.getCompany(), visitDate1
-                ,visitDate2,updateVisitor.getBirth(),updateVisitor.getPurpose(),updateVisitor.getWrite_date(),revisedDate,
-                count, updateVisitor.is_checked(),updateVisitor.getId());
+        log.info("service.updateInfo");
+        log.info("is_checked={}",updateVisitor.getIs_checked());
+        visitorRepository.updateInfo(updateVisitor);
+        log.info("is_checked={}",updateVisitor.getIs_checked());
     }
-
-
-
 
 
 

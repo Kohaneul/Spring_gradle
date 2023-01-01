@@ -5,6 +5,13 @@
   width:950px;
   margin-left:1%;
 }
+img{
+  margin-top:-10px;
+  margin-left:24px;
+}
+ol{
+    font-size:20px;
+}
 
 .card.mb-4 table{
     font-size:14px;
@@ -14,7 +21,10 @@
     border-top: 3px solid #dddddd;
     border-bottom:3px solid #dddddd;
 }
-
+.card-body #contents{
+  margin-top:10px;
+  margin-bottom:10px;
+}
   th, td {
     padding: 8px;
   }

@@ -12,10 +12,13 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 public class ReservationDTO {
     @Nullable
-    private int employee_id;
-
+    private String date1;
     @Nullable
-    private boolean is_checked;
+    private String date2;
+    @Nullable
+    private Boolean is_checked;
+
+
 
 
 }

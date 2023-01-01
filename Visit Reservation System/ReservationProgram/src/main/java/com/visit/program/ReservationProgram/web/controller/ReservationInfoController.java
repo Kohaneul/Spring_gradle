@@ -1,22 +1,26 @@
 package com.visit.program.ReservationProgram.web.controller;
 
 import com.visit.program.ReservationProgram.domain.dao.*;
+import com.visit.program.ReservationProgram.domain.dto.ReservationDTO;
 import com.visit.program.ReservationProgram.domain.ex.ErrorMessage;
 import com.visit.program.ReservationProgram.domain.ex.ReviseCountExcess;
-import com.visit.program.ReservationProgram.domain.service.EmployeeService;
 import com.visit.program.ReservationProgram.domain.service.ReservationService;
 import com.visit.program.ReservationProgram.domain.service.VisitorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Controller
 @Slf4j
@@ -25,124 +29,194 @@ import java.util.List;
 public class ReservationInfoController {
     private final ReservationService reservationService;
     private final VisitorService visitorService;
-    private final EmployeeService employeeService;
 
-    @GetMapping("/click/{id}")
-    public String clickReservation(@PathVariable(name = "id") Long id, Model model) {
-        Reservation reservation = reservationService.findOne(id);
-        Long visitor_id = reservation.getId();
-        visitorService.updateCheckedInfo(visitor_id);
-        reservationService.updateCheckedInfo(id);
-        List<Reservation> reservations = reservationService.findAll();
-        model.addAttribute("reservations", reservations);
-        return "redirect:/reservation/info/all";
-    }
+//
+//    @GetMapping("/calender")
+//    public String viewCalender() {
+//        return "/view/calender";
+//    }
+//
+//
+//    @PostMapping("/calender")
+//    public String viewCalender2(@RequestParam("visit_date1")String visit_date1,@RequestParam("visit_date2")String visit_date2,Model model){
+//        model.addAttribute("visit_date1",visit_date1);
+//        model.addAttribute("visit_date2",visit_date2);
+//       log.info("visit_Date={}",visit_date1);
+//        return "/view/SaveForm";
+//    }
+//
 
     @GetMapping("/save")
-    public String saveInfo(@ModelAttribute("visitor") SaveVisitor saveVisitor, HttpServletRequest request,Model model) {
-        log.info("employee_id={}",request.getParameter("employee_Id"));
-        if(request.getParameter("employee_Id")!=null){
-            Long employeeId = Long.parseLong(request.getParameter("employee_Id"));
-            saveVisitor.setEmployee_id(employeeId);
-            Employee employee = employeeService.findOne(employeeId);
-            String employeeInfo=employee.getName() + "("+employee.getDepartment()+")";
-            model.addAttribute("employeeInfo",employeeInfo);
-        }
-        sendDate(model);
+    public String saveInfo(@ModelAttribute("visitor")SaveVisitor visitor){
         return "/view/SaveForm";
     }
 
-    private void sendDate(Model model) {
-        model.addAttribute("month",getDate(1,12));
-        model.addAttribute("day",getDate(1,31));
-        model.addAttribute("hour",getDate(0,23));
-        model.addAttribute("minute",getDate(0,59));
-    }
-
-
-    private List<Integer> getDate(int min,int max){
-        List<Integer> list = new ArrayList<>();
-        for(int i = min; i<=max;i++){
-            list.add(i);
-        }
-        return list;
-    }
-
-
-
-
-
     @PostMapping("/save")
-    public String saveInfo(@Valid @ModelAttribute(name = "visitor") SaveVisitor visitor, BindingResult bindingResult) {
-        notEqualEmployeeId(visitor.getEmployee_id(), bindingResult);
+    public String saveInfo(@Valid @ModelAttribute(name = "visitor") SaveVisitor visitor, BindingResult bindingResult,Model model
+    ) {
+        String wrongPhoneNumber = wrongPhoneNumber(visitor.getPhone_number());
+        if(wrongPhoneNumber!=null){
+            log.info("wrongPhoneNumber={}",wrongPhoneNumber);
+            model.addAttribute("wrongPhoneNumber",wrongPhoneNumber);
+        }
         if (bindingResult.hasErrors()) {
+            String errorMsg = setNullErrors(visitor,bindingResult);
+            model.addAttribute("errorMsg",errorMsg);
             return "/view/SaveForm";
         }
-        Long visitorId = visitorService.saveInfo(visitor);
-        Visitor visitor1 = visitorService.findOne(visitorId);
-        reservationService.saveInfo(new SaveReservationInfo(visitor1.getEmployee_id(), visitor1.getId(), visitor1.is_checked()));
-        return "redirect:/reservation/info/all";
-    }
-
-
-
-    private void notEqualEmployeeId(Long id, BindingResult bindingResult) {
-        if (employeeService.findOne(id) == null) {
-            bindingResult.reject("globalError", "존재하지 않는 사번입니다.");
+        else {
+            Long visitorId = visitorService.saveInfo(visitor);
+            Visitor visitor1 = visitorService.findOne(visitorId);
+            reservationService.saveInfo(new SaveReservationInfo(visitor1.getId(), visitor1.getIs_checked()));
+            return "redirect:/reservation/info/all";
         }
     }
+
+
+    private String setNullErrors(SaveVisitor visitor,BindingResult bindingResult) {
+        int cnt = 0;
+        StringBuilder builder = new StringBuilder();
+        if (!StringUtils.hasText(visitor.getEmployee_name())) {
+            cnt++;
+            builder.append("담당자(이름) ");
+        }
+        if (!StringUtils.hasText(visitor.getName())) {
+            cnt++;
+            builder.append("방문자(이름) ");
+        }
+        if (!StringUtils.hasText(visitor.getPhone_number())) {
+            cnt++;
+            builder.append("연락처 ");
+        }
+        if (!StringUtils.hasText(visitor.getCompany())) {
+            cnt++;
+            builder.append("소속회사 ");
+        }
+        if (!StringUtils.hasText(visitor.getBirth())) {
+            cnt++;
+            builder.append("생년월일 ");
+        }
+        if (!StringUtils.hasText(visitor.getPurpose())) {
+            cnt++;
+            builder.append("방문 목적 ");
+        }
+        if(cnt==0){
+            return null;
+        }
+        else{
+            String str = "다음 표시된 항목을 확인 후 다시 입력 해주세요 : "+builder.toString();
+            bindingResult.reject("globalError",str);
+            log.info("str={}",str);
+            return str;
+        }
+    }
+
+
+    private String wrongPhoneNumber(String phoneNumber){
+        String regExp = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$";
+        if(!Pattern.matches(regExp, phoneNumber)){
+            return "휴대전화 형식 오류 : 010-0000-0000 형식으로 입력해주세요";
+        }
+        return null;
+    }
+
+
+
+
+
+    @RequestMapping("/click/{id}")
+    public void clickReservation(@ModelAttribute("reservationDTO") ReservationDTO reservationDTO, @PathVariable(name = "id") Long id,
+                                   Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Reservation reservation = reservationService.findOne(id);
+        Long visitor_id = reservation.getVisitor_id();
+        Visitor visitor = visitorService.findOne(visitor_id);
+        log.info("visitor is checked={}",visitor.getIs_checked());
+        visitorService.updateCheckedInfo(visitor.getId());
+        reservationService.updateCheckedInfo(id);
+        List<Reservation> reservations = reservationService.findAllDTO(reservationDTO);
+        log.info("===========================================");
+        log.info("clickReservation");
+        log.info("visitor_is_checked={}",visitor.getIs_checked());
+        log.info("visitor_is_checked={}",reservation.getIs_checked());
+        model.addAttribute("reservations", reservations);
+        response.sendRedirect(redirectURL(request,response));
+    }
+
+
+    private String redirectURL(HttpServletRequest request, HttpServletResponse response){
+        String referURL = request.getHeader("REFERER");
+        response.setContentType("text/html; charset=UTF-8");
+        referURL=referURL.substring(referURL.indexOf("r")-1);
+        return referURL;
+    }
+
 
     @GetMapping("/{id}")
     public String viewReservationOne(@PathVariable(name = "id") Long id, Model model) {
-        Reservation reservation = reservationService.findOne(id);
         ReservationInfo reservationInfo = reservationService.findInfo(id);
         Long visitorId = reservationInfo.getVisitor_id();
         Visitor visitor = visitorService.findOne(visitorId);
+        boolean checked = visitor.getIs_checked();
+        log.info("controller.viewReservationOne");
+        log.info("=================================");
+        log.info("visitor={}",checked);
+        log.info("reservation={}",reservationInfo.getIs_checked());
 
         model.addAttribute("visitor",visitor);
-        model.addAttribute("reservation", reservation);
+        model.addAttribute("reservation", reservationInfo);
         return "/view/ViewOne";
     }
 
-
-    @GetMapping("/employee/find")
-    public String employeeAll(Model model) {
-        List<Employee> employeeList = employeeService.findAll();
-        model.addAttribute("employeeList", employeeList);
-        return "/view/EmployAll";
-    }
-
-    @GetMapping("/employee/{id}")
-    public String employeeId(@PathVariable("id") Long id, Model model){
-        Employee employee = employeeService.findOne(id);
-        Long employeeId = employee.getId();
-        model.addAttribute("employeeId",employeeId);
-        return "/view/EmployAll";
-    }
-
-
     @GetMapping("/{id}/update")
     public String updateInfo(@PathVariable Long id, Model model) {
-        Visitor beforeVisitor = visitorService.findOne(id);
+        Reservation reservation = reservationService.findOne(id);
+        Visitor beforeVisitor = visitorService.findOne(reservation.getVisitor_id());
+        log.info("controller.updateInfo");
+
+        log.info("visitor={}",beforeVisitor.getIs_checked());
+        log.info("reservation={}",reservation.getIs_checked());
         UpdateVisitor updateVisitor = updateVisitor(beforeVisitor);
         model.addAttribute("visitor",updateVisitor);
-        sendDate(model);
-        return "/view/UpdateForm";
+        log.info("update Visitor ={}",updateVisitor.getIs_checked());
+        return "/view/UpdateForm2";
     }
 
     @PostMapping("/{id}/update")
-    public String updateInfo(@PathVariable Long id, @Valid @ModelAttribute(name = "visitor") UpdateVisitor updateVisitor, BindingResult bindingResult) {
+    public String updateInfo(@PathVariable Long id, @Valid @ModelAttribute(name = "visitor") UpdateVisitor updateVisitor, BindingResult bindingResult) throws IOException {
         int count = updateVisitor.getCount();
-        ReviseCountEx(count);
-        notEqualEmployeeId(updateVisitor.getEmployee_id(), bindingResult);
+        log.info("update Visitor ={}",updateVisitor.getIs_checked());
 
+        log.info("controller.updateInfo POST");
+        ReviseCountEx(count);
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().stream().forEach(i->log.info("에러원인={}",i));
-            return "/view/UpdateForm";
+            return "/view/UpdateForm2";
         }
         visitorService.updateInfo(updateVisitor);
+        log.info("visitor={}",updateVisitor.getIs_checked());
+        log.info("update count after = {}",updateVisitor.getCount());
+
         return "redirect:/reservation/info/{id}";
     }
+
+//    @GetMapping("/calender_revised")
+//    public String viewCalender(@PathVariable("id")Long id,Model model) {
+//        Reservation reservation = reservationService.findOne(id);
+//        Long visitorId = reservation.getVisitor_id();
+//        Visitor visitor = visitorService.findOne(visitorId);
+//        model.addAttribute("visit_date1",visitor.getVisit_date1());
+//        model.addAttribute("visit_date2",visitor.getVisit_date2());
+//        log.info("visit_date1={}",visitor.getVisit_date1());
+//        log.info("visit_date2={}",visitor.getVisit_date2());
+//        return "/view/calender";
+//    }
+//
+//
+//    @PostMapping("/calender_revised")
+//    public String viewCalender3(@RequestParam("visit_date1")String visit_date1,@RequestParam("visit_date2")String visit_date2,Model model){
+//        model.addAttribute("visit_date1",visit_date1);
+//        model.addAttribute("visit_date2",visit_date2);
+//        return "/view/UpdateForm2";
+//    }
 
     private void ReviseCountEx(int count){
         if(count>=2){
@@ -151,37 +225,14 @@ public class ReservationInfoController {
     }
 
     private UpdateVisitor updateVisitor(Visitor visitor) {
-        String visitDate1 = visitor.getVisit_date1();
-        String visitDate2 = visitor.getVisit_date2();
-        return new UpdateVisitor(visitor.getId(), visitor.getEmployee_id(), visitor.getName(), visitor.getPurpose(),visitor.getCompany(),visitor.getPhone_number(),
-                setDate(visitDate1,"월"),setDate(visitDate1,"일"),setDate(visitDate1,"시"),setDate(visitDate1,"분"),
-                setDate(visitDate2,"월"),setDate(visitDate2,"일"),setDate(visitDate2,"시"),setDate(visitDate2,"분"),
-                visitor.getWrite_date(), visitor.getBirth(), visitor.getCount(),visitor.is_checked());}
-
-
-     private int setDate(String str,String dateType){
-        StringBuilder stringBuilder =  new StringBuilder(str);
-        String strNum="";
-        switch(dateType){
-            case "월":
-                strNum = stringBuilder.substring(0, stringBuilder.indexOf("월"));
-            break;
-            case "일":
-                strNum = stringBuilder.substring(stringBuilder.indexOf("월")+1, stringBuilder.indexOf("일"));
-            break;
-            case "시":
-                strNum = stringBuilder.substring(stringBuilder.indexOf(" ") + 1, stringBuilder.indexOf("시"));
-                break;
-            case "분":
-                strNum = stringBuilder.substring(stringBuilder.indexOf("시") + 1, stringBuilder.indexOf("분"));
-                break;
-        }
-        return Integer.parseInt(strNum);
-     }
+        log.info("UpdateVisitor.updateVisitor");
+        log.info("visitor is checked={}",visitor.getIs_checked());
+        return new UpdateVisitor(visitor.getEmployee_name(),visitor.getName(),visitor.getPhone_number(),visitor.getCompany(),visitor.getVisit_date1(),visitor.getVisit_date2()
+                ,visitor.getBirth(),visitor.getPurpose(),visitor.getWrite_date(),visitor.getCount(),visitor.getIs_checked(),visitor.getId());}
 
 
     @GetMapping("/{id}/delete")
-    public String deleteInfo(@PathVariable Long id) {
+    public String deleteInfo(@PathVariable Long id){
         Long visitorId = reservationService.findOne(id).getVisitor_id();
         reservationService.deleteInfo(id);
         visitorService.deleteInfo(visitorId);
