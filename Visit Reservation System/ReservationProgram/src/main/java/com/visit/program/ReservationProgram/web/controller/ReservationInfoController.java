@@ -3,6 +3,7 @@ package com.visit.program.ReservationProgram.web.controller;
 import com.visit.program.ReservationProgram.domain.dao.*;
 import com.visit.program.ReservationProgram.domain.dto.ReservationDTO;
 import com.visit.program.ReservationProgram.domain.ex.ErrorMessage;
+import com.visit.program.ReservationProgram.domain.ex.NoModificationsEx;
 import com.visit.program.ReservationProgram.domain.ex.ReviseCountExcess;
 import com.visit.program.ReservationProgram.domain.service.ReservationService;
 import com.visit.program.ReservationProgram.domain.service.VisitorService;
@@ -188,6 +189,10 @@ public class ReservationInfoController {
 
         log.info("controller.updateInfo POST");
         ReviseCountEx(count);
+
+        NoModificationEx(id,updateVisitor);
+
+
         if (bindingResult.hasErrors()) {
             return "/view/UpdateForm2";
         }
@@ -198,25 +203,21 @@ public class ReservationInfoController {
         return "redirect:/reservation/info/{id}";
     }
 
-//    @GetMapping("/calender_revised")
-//    public String viewCalender(@PathVariable("id")Long id,Model model) {
-//        Reservation reservation = reservationService.findOne(id);
-//        Long visitorId = reservation.getVisitor_id();
-//        Visitor visitor = visitorService.findOne(visitorId);
-//        model.addAttribute("visit_date1",visitor.getVisit_date1());
-//        model.addAttribute("visit_date2",visitor.getVisit_date2());
-//        log.info("visit_date1={}",visitor.getVisit_date1());
-//        log.info("visit_date2={}",visitor.getVisit_date2());
-//        return "/view/calender";
-//    }
-//
-//
-//    @PostMapping("/calender_revised")
-//    public String viewCalender3(@RequestParam("visit_date1")String visit_date1,@RequestParam("visit_date2")String visit_date2,Model model){
-//        model.addAttribute("visit_date1",visit_date1);
-//        model.addAttribute("visit_date2",visit_date2);
-//        return "/view/UpdateForm2";
-//    }
+    private void NoModificationEx(Long id,UpdateVisitor updateVisitor) {
+        Reservation reservation = reservationService.findOne(id);
+        Visitor visitor = visitorService.findOne(reservation.getVisitor_id());
+
+        if (visitor.getEmployee_name().equals(updateVisitor.getEmployee_name()) &&
+                visitor.getPhone_number().equals(updateVisitor.getPhone_number()) &&
+                    visitor.getName().equals(updateVisitor.getName()) &&
+                    visitor.getCompany().equals(updateVisitor.getCompany()) &&
+                    visitor.getBirth().equals(updateVisitor.getBirth()) &&
+                    visitor.getPurpose().equals(updateVisitor.getPurpose()) &&
+                    visitor.getVisit_date1().equals(updateVisitor.getVisit_date1()) &&
+                    visitor.getVisit_date2().equals(updateVisitor.getVisit_date2())) {
+            throw new NoModificationsEx(ErrorMessage.NO_REVISE_MSG);
+        }
+    }
 
     private void ReviseCountEx(int count){
         if(count>=2){

@@ -53,7 +53,6 @@ public class HomeController {
 
     @GetMapping("/reservation/info/all")
     public String viewAll(Model model, @ModelAttribute("reservationDTO")ReservationDTO reservationDTO) {
-
         List<Reservation> reservations = reservationService.findAllDTO(reservationDTO);
         model.addAttribute("reservations",reservations);
         String renewDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy/MM/dd hh:mm:ss"));
