@@ -1,5 +1,6 @@
 package hello.advanced.v1;
 
+import hello.advanced.trace.HelloTraceV1;
 import hello.advanced.trace.TraceStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

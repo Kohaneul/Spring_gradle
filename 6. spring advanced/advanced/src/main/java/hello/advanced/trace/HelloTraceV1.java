@@ -1,7 +1,5 @@
-package hello.advanced.v1;
+package hello.advanced.trace;
 
-import hello.advanced.trace.TraceId;
-import hello.advanced.trace.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
