@@ -22,7 +22,6 @@ class HelloTraceV2Test {
         TraceStatus hello2 = trace.beginSync(hello1.getTraceId(), "hello2");
         trace.exception(hello2,new RuntimeException());
         trace.exception(hello1,new RuntimeException());
-
     }
 
 }
