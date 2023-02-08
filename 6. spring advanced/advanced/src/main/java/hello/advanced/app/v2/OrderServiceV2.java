@@ -1,6 +1,5 @@
 package hello.advanced.app.v2;
 
-import hello.advanced.trace.HelloTraceV1;
 import hello.advanced.trace.HelloTraceV2;
 import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;

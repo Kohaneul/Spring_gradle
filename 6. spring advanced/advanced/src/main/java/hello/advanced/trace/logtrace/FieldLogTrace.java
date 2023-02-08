@@ -3,6 +3,9 @@ package hello.advanced.trace.logtrace;
 import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
+import hello.advanced.trace.TraceId;
+import hello.advanced.trace.TraceStatus;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class FieldLogTrace implements LogTrace{
@@ -17,18 +20,19 @@ public class FieldLogTrace implements LogTrace{
         syncTraceId();  //해당 메서드를 통해서 holder 에 값이 들어가있는게 보장됨.
         long startTimeMs = System.currentTimeMillis();
         //로그 출력
-        log.info("[{}] {}{}",traceIdHolder.getId(),addSpace(START_PREFIX,traceIdHolder.getLevel()),message);
+        log.info("[{}] {}{} time={}ms",traceIdHolder.getId(),addSpace(START_PREFIX,traceIdHolder.getLevel()),message,startTimeMs);
         return new TraceStatus(traceIdHolder,startTimeMs,message);
     }
 
     private void syncTraceId(){
         if(traceIdHolder==null){    //최초호출이면 새로만든다.
             traceIdHolder = new TraceId();
+            log.info("새로만든다");
         }
         else{   //최초호출이 아니면 동기화
             traceIdHolder = traceIdHolder.createNextId();
-        }
 
+        }
     }
 
     private String addSpace(String prefix,int level){
@@ -36,7 +40,6 @@ public class FieldLogTrace implements LogTrace{
         for(int i = 0; i<level;i++){
             sb.append((i==level-1)?"|"+prefix:"|  ");
         }
-
         return sb.toString();
     }
 
@@ -75,4 +78,3 @@ public class FieldLogTrace implements LogTrace{
 
     }
 }
-

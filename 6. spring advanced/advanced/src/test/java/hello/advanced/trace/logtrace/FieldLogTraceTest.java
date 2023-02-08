@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class FieldLogTraceTest {
 
     FieldLogTrace trace = new FieldLogTrace();
-
-
     @Test
     void begin_end_level2(){
         TraceStatus hello1 = trace.begin("hello1");
