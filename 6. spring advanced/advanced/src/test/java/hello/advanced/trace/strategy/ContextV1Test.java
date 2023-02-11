@@ -1,5 +1,8 @@
-package hello.advanced.trace.template;
+package hello.advanced.trace.strategy;
 
+import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
+import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import hello.advanced.trace.template.code.AbstractTemplate;
 import hello.advanced.trace.template.code.SubClassLogic1;
 import hello.advanced.trace.template.code.SubClassLogic2;
@@ -7,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-public class TemplateMethodTest {
+public class ContextV1Test {
 
     @Test
     void templateMethod(){
@@ -75,6 +78,21 @@ public class TemplateMethodTest {
         log.info("클래스이름={}",template2.getClass());
 
     }
+
+    /**
+     * 전략 패턴 사용
+     * */
+    @Test
+    void strategy(){
+        StrategyLogic1 strategyLogic1 = new StrategyLogic1();
+        ContextV1 contextV1 = new ContextV1(strategyLogic1);
+        contextV1.execute();
+
+        StrategyLogic2 strategyLogic2 = new StrategyLogic2();
+        ContextV1 contextV2 = new ContextV1(strategyLogic2);
+        contextV2.execute();
+    }
+
 
 
 }
