@@ -1,6 +1,7 @@
 package hello.advanced.trace.strategy;
 
 import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.Strategy;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import hello.advanced.trace.template.code.AbstractTemplate;
@@ -93,6 +94,60 @@ public class ContextV1Test {
         contextV2.execute();
     }
 
+    @Test
+    void strategyV2(){
+        Strategy strategy = new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스로직1 실행 웅앵");
+            }
+        };
+        ContextV1 contextV1 = new ContextV1(strategy);
+        log.info("strategyLogic1={}",strategy.getClass());
 
+        contextV1.execute();
+
+        Strategy strategy1= new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스로직2 실행 웅앵");
+
+            }
+        };
+        ContextV1 contextV2 = new ContextV1(strategy1);
+        log.info("strategyLogic2={}",strategy1.getClass());
+        contextV2.execute();
+    }
+
+    @Test
+    void strategyV3(){
+
+        ContextV1 contextV1 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스로직1 실행 웅앵");
+            }
+        });
+
+        contextV1.execute();
+
+        ContextV1 contextV2 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비즈니스로직2 실행 웅앵");
+
+            }
+        });
+        contextV2.execute();
+    }
+
+    //람다 실행 : 인터페이스에 메서드 1개만 있다는 전제하에서 가능
+    @Test
+    void strategyV4(){
+        ContextV1 contextV1 = new ContextV1(()->log.info("비즈니스 로직1 실행"));
+        contextV1.execute();
+        ContextV1 contextV2 = new ContextV1(() -> log.info("비즈니스 로직 2 실행"));
+        contextV2.execute();
+    }
 
 }
