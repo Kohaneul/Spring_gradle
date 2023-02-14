@@ -39,6 +39,7 @@ public class ContextV2Test {
         });
 
     }
+
     /**
      * 전략 패턴 사용_익명 내부클래스+람다
      */
