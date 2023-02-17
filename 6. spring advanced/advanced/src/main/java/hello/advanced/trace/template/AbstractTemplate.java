@@ -24,6 +24,5 @@ public abstract class AbstractTemplate<T> {
             throw e;
         }
     }
-
     protected abstract T call();
 }

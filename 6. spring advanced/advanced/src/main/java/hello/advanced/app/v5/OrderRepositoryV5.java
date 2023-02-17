@@ -1,5 +1,4 @@
 package hello.advanced.app.v5;
-
 import hello.advanced.trace.callback.TraceTemplate;
 import hello.advanced.trace.logtrace.LogTrace;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,7 @@ public class OrderRepositoryV5 {
     }
 
     public void save(String itemId){
-        template.execute("OrderRepositoryV5.save()",
+        template.execute("OrderRepositoryV6.save()",
                 () -> {
                     if(itemId.equals("ex")){
                         throw new IllegalStateException("예외 발생!!");
@@ -25,7 +24,6 @@ public class OrderRepositoryV5 {
                     return null;
                 }
         );
-
     }
     private void sleep(int milliSeconds){
         try {
