@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 public class DecoratorPatternTest {
     //데코레이터 패턴의 특징 : 클라이언트는 기존 코드를 변경하지 않고 프록시 객체를 계속 생성하여 꾸밈
+
       @Test
     void noDecorator(){
         Component realComponent = new RealComponent();
