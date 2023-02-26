@@ -4,9 +4,6 @@ import hello.proxy.app.v1.OrderControllerV1;
 import hello.proxy.trace.TraceStatus;
 import hello.proxy.trace.logtrace.LogTrace;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 @RequiredArgsConstructor
 public class OrderControllerInterfaceProxy implements OrderControllerV1{
     private final OrderControllerV1 target;
