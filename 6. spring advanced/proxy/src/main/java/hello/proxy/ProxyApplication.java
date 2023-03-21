@@ -2,6 +2,7 @@ package hello.proxy;
 
 import hello.proxy.config.AppV1Config;
 import hello.proxy.config.AppV2Config;
+import hello.proxy.config.ProxyFactoryConfigV1;
 import hello.proxy.config.v1_proxy.ConcreteProxyConfig;
 import hello.proxy.config.v1_proxy.InterfaceProxyConfig;
 import hello.proxy.config.v2_dynamic_proxy.DynamicProxyBasicConfig;
@@ -19,7 +20,8 @@ import org.springframework.context.annotation.Import;
 //@Import(InterfaceProxyConfig.class)
 //@Import(ConcreteProxyConfig.class)
 //@Import(DynamicProxyBasicConfig.class)
-@Import(DynamicProxyFilterConfig.class)
+//@Import(DynamicProxyFilterConfig.class)
+@Import(ProxyFactoryConfigV1.class)
 @SpringBootApplication(scanBasePackages = "hello.proxy.app") //주의
 //(@Configuration 이 붙었으나 스프링 빈으로 자동 등록되지 않도록 hello.proxy.app 로 컴포넌트 시작 위치 설정
 public class ProxyApplication {
