@@ -7,7 +7,6 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
-
 @RequiredArgsConstructor
 public class LogTraceAdvice implements MethodInterceptor {
     private final LogTrace logTrace;
