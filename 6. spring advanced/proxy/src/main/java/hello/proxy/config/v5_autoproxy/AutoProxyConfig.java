@@ -24,7 +24,6 @@ public class AutoProxyConfig {
     }
 
 
-
  //   @Bean
     public Advisor advisor2(LogTrace logTrace){
         //pointcut
