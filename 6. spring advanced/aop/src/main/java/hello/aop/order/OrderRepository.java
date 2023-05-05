@@ -6,19 +6,11 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 @Repository
 public class OrderRepository {
-    public void save(String itemId){
+    public String save(String itemId){
         if(itemId.equals("ex")){
-            throw new IllegalStateException("아이디 입력 오류");
+            throw new IllegalStateException("예외 발생!");
         }
-        sleep(1000);
+        return "ok";
     }
 
-
-    private void sleep(int milliSc){
-        try {
-            Thread.sleep(milliSc);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

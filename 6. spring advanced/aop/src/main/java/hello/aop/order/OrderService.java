@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Service
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class OrderService {
-    private final OrderRepository orderRepository;
-
-    public void order(String itemId){
-        orderRepository.save(itemId);
+    private final OrderRepository repository;
+    public void orderItem(String itemId){
         log.info("[orderService] 실행");
+        repository.save(itemId);
     }
-
 }
