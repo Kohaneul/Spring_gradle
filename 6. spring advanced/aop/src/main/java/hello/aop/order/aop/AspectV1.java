@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Aspect;
 @Slf4j
 public class AspectV1 {
 
-    @Around("execution (* hello.aop.order..*(..))")
+    @Around("execution(* hello.aop.order..*(..))")
     public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("[log] {}", joinPoint.getSignature()); //JoinPoint 시그니처
         return joinPoint.proceed(); //target 호출

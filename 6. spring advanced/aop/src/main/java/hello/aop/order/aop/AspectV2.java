@@ -19,6 +19,4 @@ public class AspectV2 {
         return joinPoint.proceed();
     }
 
-
-
 }
