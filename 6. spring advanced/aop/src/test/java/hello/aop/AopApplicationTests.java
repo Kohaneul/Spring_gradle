@@ -1,4 +1,4 @@
-package hello.aop.order;
+package hello.aop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

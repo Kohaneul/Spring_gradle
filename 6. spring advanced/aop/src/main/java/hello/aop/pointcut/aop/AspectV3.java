@@ -1,4 +1,4 @@
-package hello.aop.order.aop;
+package hello.aop.pointcut.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -15,7 +15,6 @@ public class AspectV3 {
     //클래스 이름 패턴이 *Service
     @Pointcut("execution(* *..*Service.*(..))")
     private void allService(){}
-
 
 
     @Around("allOrder()")

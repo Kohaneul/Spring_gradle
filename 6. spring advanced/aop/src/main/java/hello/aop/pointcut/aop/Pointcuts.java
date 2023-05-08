@@ -1,7 +1,7 @@
-package hello.aop.order.aop;
+package hello.aop.pointcut.aop;
 
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Pointcut;
+
 //Pointcut 모둘화
 public class Pointcuts {
     @Pointcut("execution(* hello.aop.order..*(..))")
