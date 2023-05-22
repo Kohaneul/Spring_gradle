@@ -1,8 +1,8 @@
 package hello.aop;
 
-import hello.aop.pointcut.OrderRepository;
-import hello.aop.pointcut.OrderService;
-import hello.aop.pointcut.aop.*;
+import hello.aop.order.OrderRepository;
+import hello.aop.order.OrderService;
+import hello.aop.order.aop.*;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 //@Import(AspectV3.class) //spring bean 등록
 //@Import(AspectV4Pointcut.class) //spring bean 등록
 //@Import({AspectV5Order.LogAspect.class,AspectV5Order.TxAspect.class})
-@Import(AspectV6Advice.class)
+//@Import(AspectV6Advice.class)
 public class AopTest {
 
     @Autowired

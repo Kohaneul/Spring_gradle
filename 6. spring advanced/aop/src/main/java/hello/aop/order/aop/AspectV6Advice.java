@@ -1,4 +1,4 @@
-package hello.aop.pointcut.aop;
+package hello.aop.order.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -12,7 +12,6 @@ public class AspectV6Advice {
     public void doBefore(JoinPoint joinPoint){  //joinpoint 실행 전 로직 실행
       log.info("[before] {} ",joinPoint.getSignature());
     }
-
     @AfterReturning(value = "hello.aop.order.aop.Pointcuts.orderAndService()", returning = "result")
     public void doReturn(JoinPoint joinPoint,Object result){
         log.info("[return] {} return={}",joinPoint.getSignature(),result);

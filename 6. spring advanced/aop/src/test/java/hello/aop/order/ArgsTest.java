@@ -1,8 +1,7 @@
-package hello.aop.pointcut;
+package hello.aop.order;
 
 import hello.aop.member.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -42,7 +41,11 @@ public class ArgsTest {
      * execution(* *(java.io.Serializable)): 메서드의 시그니처로 판단(정적)
      * args(java.io.Serializable) : 런타임에 전달된 인수로 판단(동적)
      */
+    @Test
+    void args2(){
+        assertThat(pointcut("execution(* *(String)").matches(helloMethod,MemberServiceImpl.class)).isTrue();
 
+    }
     @Test
     void argsVsExecution(){
         //Args

@@ -1,7 +1,6 @@
-package hello.aop.pointcut;
+package hello.aop.order;
 
 import hello.aop.member.MemberService;
-import hello.aop.member.MemberServiceImpl;
 import hello.aop.member.annotation.ClassAop;
 import hello.aop.member.annotation.MethodAop;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.assertj.core.condition.Join;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package hello.aop.pointcut;
+package hello.aop.order;
 
 import hello.aop.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,24 +12,24 @@ import org.springframework.context.annotation.Import;
 
 @Slf4j
 @SpringBootTest
-@Import(BeanTest.BeanAspect.class)
-public class BeanTest {
+@Import(AtAnnotationTest.AtAnnotationAspect.class)
+public class AtAnnotationTest {
     @Autowired
-    OrderService orderService;
+    MemberService memberService;
 
     @Test
     void success(){
-        orderService.orderItem("itemA");
+        log.info("memberService Proxy={}",memberService.getClass());
+        memberService.hello("helloA");
     }
-
-    @Aspect
     @Slf4j
-    static class BeanAspect{
-        @Around("bean(orderService) || bean(*Repository)")
-        public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
-            log.info("[bean] {}",joinPoint.getSignature());
+    @Aspect
+    static class AtAnnotationAspect{
+
+        @Around("@annotation(hello.aop.member.annotation.MethodAop)")
+        public Object doAtAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
+            log.info("[@annotation] {}",joinPoint.getSignature());
             return joinPoint.proceed();
         }
-
     }
 }
