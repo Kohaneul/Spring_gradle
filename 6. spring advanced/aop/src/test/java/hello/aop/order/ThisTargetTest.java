@@ -1,4 +1,4 @@
-package hello.aop.order;
+package hello.aop.pointcut;
 
 import hello.aop.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
