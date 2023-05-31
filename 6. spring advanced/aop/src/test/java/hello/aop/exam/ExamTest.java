@@ -10,16 +10,17 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootTest
 @Slf4j
-@Import({TraceAspect.class, RetryAspect.class})
+@Import({RetryAspect.class,TraceAspect.class})
 public class ExamTest {
     @Autowired
     ExamService examService;
 
     @Test
     void test(){
-        for(int i = 0; i<5;i++){
+        for(int i = 0; i<4;i++){
             log.info("client request={}",i);
             examService.request("data" + i);
         }
     }
+
 }
